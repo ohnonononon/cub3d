@@ -6,8 +6,16 @@ Creating a rayCaster with MLX
 ### CODAM
 CODAM MLX is allowed, must be downloaded and compiled with to work. It's documented, it's not that much of stuff.
 
+### DEV LAWSSSSssssssssssssssss
+- NO LEAKS
+- Set error paths correctly
+
 ### development roadmap
 breakdown by phases for testing and making sure everything works up to that point
+
+Summary,
+1.  Window environment
+2.  Render hardcoded 2D map
 
 #### 1
 Window creation and implement behavior interaction, such as close, minimizing,
@@ -54,6 +62,4 @@ with the window.
 - Map textures in map slices
 - Handle different wall directions
 
-### Set as constant: 
-- NO LEAKS
-- Set error paths correctly
+
