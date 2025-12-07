@@ -6,22 +6,15 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 18:56:19 by nimatura          #+#    #+#             */
-/*   Updated: 2025/12/07 19:38:32 by nimatura         ###   ########.fr       */
+/*   Updated: 2025/12/07 21:03:14 by nimatura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./MLX42/include/MLX42/MLX42.h"
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-
+#include "cub3d.h"
 #define WIDTH 512
 #define HEIGHT 512
 
 static mlx_image_t* image;
-
-// -----------------------------------------------------------------------------
 
 int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
 {
@@ -64,7 +57,7 @@ void ft_hook(void* param)
 
 // -----------------------------------------------------------------------------
 
-int32_t main(void)
+int	main(int ac, char **av)
 {
 	mlx_t* mlx;
 
