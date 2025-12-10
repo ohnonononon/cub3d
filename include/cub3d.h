@@ -6,7 +6,7 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 20:53:34 by nimatura          #+#    #+#             */
-/*   Updated: 2025/12/07 21:01:07 by nimatura         ###   ########.fr       */
+/*   Updated: 2025/12/10 15:42:16 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ library.
 # endif
 
 
-#include "./MLX42/include/MLX42/MLX42.h"
+#include "../lib/MLX42/include/MLX42/MLX42.h"
 
 #include <stdio.h>
 #include <stdlib.h>
