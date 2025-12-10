@@ -6,7 +6,7 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 20:53:34 by nimatura          #+#    #+#             */
-/*   Updated: 2025/12/10 16:18:58 by ohnonon          ###   ########.fr       */
+/*   Updated: 2025/12/10 18:26:30 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,12 @@ library.
 # endif
 # ifndef HEIGHT
 #  define HEIGHT 512
+# endif
+# ifndef BPP
+#  define BPP 4
+# endif
+# ifndef TILE_SIZE
+#  define TILE_SIZE 64
 # endif
 
 
