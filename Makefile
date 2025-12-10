@@ -6,42 +6,38 @@
 #    By: nimatura <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/07 20:35:18 by nimatura          #+#    #+#              #
-#    Updated: 2025/12/07 20:37:00 by nimatura         ###   ########.fr        #
+#    Updated: 2025/12/10 15:43:19 by ohnonon          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# MAKEFILE now presumes codamMLX is at root of project dir
+NAME	:= Game
+CFLAGS	:= -Wextra -Wall -Werror -Wunreachable-code -Ofast
+LIBMLX	:= ./lib/MLX42
 
-NAME = cub3D
+HEADERS	:= -I ./include -I $(LIBMLX)/include
+LIBS	:= $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
+SRCS	:= $(shell find ./src -iname "*.c")
+OBJS	:= ${SRCS:.c=.o}
 
-CC = cc
-FLAGS = -Wall -Wextra -Werror -g -Iinclude -ldl -lglw -pthread -lm
-SRC := main.cpp
-OBJ := $(SRC:.cpp=.o)
-DEPS := $(SRC:.cpp=.d)
-MLX_H := MLX42/build/libmlx42.a
-
-# To add: codamMLX42 compilation:
-# git clone https://github.com/codam-coding-college/MLX42.git
-# cd MLX42
-# cmake -B build # build here refers to the outputfolder.
-# cmake --build build -j4 # or do make -C build -j4
+# all: libmlx $(NAME)
+#
+# libmlx:
+# 	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
 
 all: $(NAME)
 
--include $(DEPS)
-$(NAME): $(OBJ)
-	$(CC) $(FLAGS) $(SRC) -o $@
+%.o: %.c
+	@$(CC) $(CFLAGS) -o $@ -c $< $(HEADERS) && printf "Compiling: $(notdir $<)"
 
-%.o: %.cpp Makefile $(INCLUDES)
-	$(CC) $(FLAGS) $(SRC) -c $<
+$(NAME): $(OBJS)
+	@$(CC) $(OBJS) $(LIBS) $(HEADERS) -o $(NAME)
 
 clean:
-	@rm -rf *.o *.d
+	@rm -rf $(OBJS)
 
 fclean: clean
 	@rm -rf $(NAME)
 
-re: fclean all
+re: clean all
 
-.PHONY: all clean fclean re
+.PHONY: all, clean, fclean, re, libmlx
