@@ -6,14 +6,11 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 18:56:19 by nimatura          #+#    #+#             */
-/*   Updated: 2025/12/10 18:28:40 by ohnonon          ###   ########.fr       */
+/*   Updated: 2025/12/23 11:40:21 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
-#include <string.h>
-#define WIDTH 512
-#define HEIGHT 512
 
 /* Referenced in /doc/colors.md as get_rgba */
 int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
@@ -107,34 +104,38 @@ void	draw_basic_map(data_t	*data)
 	}
 }
 
+int	exit_err(void)
+{
+	printf("%s\n", mlx_strerror(mlx_errno));
+	return (EXIT_FAILURE);
+}
+
+int	set_mlx(data_t	*d)
+{
+	if (!(d->mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true)))
+		return (-1);
+	if (!(d->img = mlx_new_image(d->mlx, WIDTH, HEIGHT)))
+	{
+		mlx_close_window(d->mlx);
+		return (-1);
+	}
+	if (mlx_image_to_window(d->mlx, d->img, 0, 0) == -1)
+	{
+		mlx_close_window(d->mlx);
+		return (-1);
+	}
+	return (1);
+}
+
 int	main(void)
 {
 	data_t	d = {0};
 
-	// Creates d.mlx api agent: Implies creation of window
-	if (!(d.mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true)))
-	{
-		puts(mlx_strerror(mlx_errno));
-		return(EXIT_FAILURE);
-	}
-	// Creates an d.img canvas in window
-	if (!(d.img = mlx_new_image(d.mlx, WIDTH, HEIGHT)))
-	{
-		mlx_close_window(d.mlx);
-		puts(mlx_strerror(mlx_errno));
-		return(EXIT_FAILURE);
-	}
+	if (set_mlx(&d) == -1)
+		return (exit_err());
 	draw_basic_map(&d);
-	if (mlx_image_to_window(d.mlx, d.img, 0, 0) == -1)
-	{
-		mlx_close_window(d.mlx);
-		puts(mlx_strerror(mlx_errno));
-		return(EXIT_FAILURE);
-	}
-	
 	// mlx_loop_hook(d.mlx, ft_randomize, &d);
 	mlx_loop_hook(d.mlx, ft_hook, &d);
 	mlx_loop(d.mlx);
-	mlx_terminate(d.mlx);
-	return (EXIT_SUCCESS);
+	return (mlx_terminate(d.mlx), EXIT_SUCCESS);
 }

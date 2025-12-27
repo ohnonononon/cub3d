@@ -6,7 +6,7 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 20:53:34 by nimatura          #+#    #+#             */
-/*   Updated: 2025/12/10 18:26:30 by ohnonon          ###   ########.fr       */
+/*   Updated: 2025/12/23 11:39:01 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,17 @@ library.
 #ifndef CUB3D_H
 # define CUB3D_H
 
+# ifndef TILE_SIZE
+#  define TILE_SIZE 64
+# endif
 # ifndef WIDTH
-#  define WIDTH 512
+#  define WIDTH TILE_SIZE * 16
 # endif
 # ifndef HEIGHT
-#  define HEIGHT 512
+#  define HEIGHT TILE_SIZE * 9
 # endif
 # ifndef BPP
 #  define BPP 4
-# endif
-# ifndef TILE_SIZE
-#  define TILE_SIZE 64
 # endif
 
 
