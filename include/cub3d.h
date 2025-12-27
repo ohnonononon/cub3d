@@ -6,7 +6,7 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 20:53:34 by nimatura          #+#    #+#             */
-/*   Updated: 2025/12/23 11:39:01 by ohnonon          ###   ########.fr       */
+/*   Updated: 2025/12/27 13:12:03 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,13 @@ library.
 # ifndef HEIGHT
 #  define HEIGHT TILE_SIZE * 9
 # endif
-# ifndef BPP
-#  define BPP 4
-# endif
-
 
 #include "../lib/MLX42/include/MLX42/MLX42.h"
+#include "../lib/MLX42/include/MLX42/MLX42_Int.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-
-
 
 #include <string.h> //memset
 
@@ -57,6 +52,8 @@ typedef struct	data_s
 {
 	mlx_t		*mlx;
 	mlx_image_t	*img;
+	int			x;
+	int			y;
 }				data_t;
 
 int		ft_pixel(int r, int g, int b, int a);

@@ -6,7 +6,7 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 18:56:19 by nimatura          #+#    #+#             */
-/*   Updated: 2025/12/23 11:40:21 by ohnonon          ###   ########.fr       */
+/*   Updated: 2025/12/27 13:31:51 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,17 @@ void ft_hook(void* param)
 
 	if (mlx_is_key_down(d->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(d->mlx);
-	// if (mlx_is_key_down(d->mlx, MLX_KEY_UP))
-	// 	d->img->instances[0].y -= 5;
-	// if (mlx_is_key_down(d->mlx, MLX_KEY_DOWN))
-	// 	d->img->instances[0].y += 5;
-	// if (mlx_is_key_down(d->mlx, MLX_KEY_LEFT))
+	// if (mlx_is_key_down(d->mlx, MLX_KEY_K))
+	// {
+	// 	if (d->j < 20) /* if more than that, it segfaults */
+	// 		d->j += 1;
+	// }
+	// if (mlx_is_key_down(d->mlx, MLX_KEY_J))
+	// {
+	// 	if (d->j > 0)
+	// 		d->j -= 1;
+	// }
+	// // if (mlx_is_key_down(d->mlx, MLX_KEY_LEFT))
 	// 	d->img->instances[0].x -= 5;
 	// if (mlx_is_key_down(d->mlx, MLX_KEY_RIGHT))
 	// 	d->img->instances[0].x += 5;
@@ -79,28 +85,52 @@ void	paint_pixel(data_t *d, int x, int y, uint32_t color)
 	}
 }
 
-void	draw_basic_map(data_t	*data)
+static double	last_time = 0;
+
+void	draw_basic_map(void	*ptr)
 {
+	data_t	*data = (data_t *)ptr;
 	int	map[] = {
 		1, 1, 1, 1,
 		1, 0, 0, 1,
 		1, 0, 0, 1,
 		1, 1, 1, 1,
-		};
+	};
 	int	m_w = 4;
 	int	m_h = 4;
-	int	i = 0;
 	int32_t	color;
 
 	color = ft_pixel(255, 255, 255, 255);
-	while (i < m_w * m_h)
+	for (int i = 0; i < m_w * m_h; ++i)
 	{
 		if (map[i] == 1)
 			color = ft_pixel(255, 0, 0, 120);
 		else if (map[i] == 0)
 			color = ft_pixel(255, 255, 255, 120);
-		paint_pixel(data, i % 4, i / 4, color);
-		i++;
+		paint_pixel(data, (data->x + i) % 4, (data->y + i) / 4, color);
+	}
+}
+
+void	fps_loop(void *ptr)
+{
+	double	now = mlx_get_time();
+	data_t	*data = (data_t *)ptr;
+	if (now - last_time >= 2.0/30.0)
+	{
+		draw_basic_map(ptr);
+		if (data->x < 16 && data->y < 16)
+		{
+			if (data->x % 4)
+				data->x++;
+			if (data->y / 3)
+				data->y++;
+		}
+		else
+		{
+			data->x = 4;
+			data->y = 4;
+		}
+		last_time = now;
 	}
 }
 
@@ -131,11 +161,13 @@ int	main(void)
 {
 	data_t	d = {0};
 
+	d.x = 4;
+	d.y = 4;
 	if (set_mlx(&d) == -1)
 		return (exit_err());
-	draw_basic_map(&d);
 	// mlx_loop_hook(d.mlx, ft_randomize, &d);
 	mlx_loop_hook(d.mlx, ft_hook, &d);
+	mlx_loop_hook(d.mlx, fps_loop, &d);
 	mlx_loop(d.mlx);
 	return (mlx_terminate(d.mlx), EXIT_SUCCESS);
 }
