@@ -6,7 +6,7 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 18:56:19 by nimatura          #+#    #+#             */
-/*   Updated: 2025/12/27 13:31:51 by ohnonon          ###   ########.fr       */
+/*   Updated: 2025/12/27 14:44:07 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,13 @@ void ft_hook(void* param)
 	// 	d->img->instances[0].x += 5;
 }
 
+int	check_px_limit(int x, int limit)
+{
+	if (x < 0 || x > limit)
+		return (0);
+	return (1);
+}
+
 void	paint_pixel(data_t *d, int x, int y, uint32_t color)
 {
 	int	start_x;
@@ -78,7 +85,8 @@ void	paint_pixel(data_t *d, int x, int y, uint32_t color)
 		py = start_y;
 		while (py < start_y + TILE_SIZE)
 		{
-			mlx_put_pixel(d->img, px, py, color);
+			if (check_px_limit(px, WIDTH) && check_px_limit(py, HEIGHT))
+				mlx_put_pixel(d->img, px, py, color);
 			py++;
 		}
 		px++;
@@ -96,9 +104,9 @@ void	draw_basic_map(void	*ptr)
 		1, 0, 0, 1,
 		1, 1, 1, 1,
 	};
+	int32_t	color;
 	int	m_w = 4;
 	int	m_h = 4;
-	int32_t	color;
 
 	color = ft_pixel(255, 255, 255, 255);
 	for (int i = 0; i < m_w * m_h; ++i)
@@ -118,7 +126,7 @@ void	fps_loop(void *ptr)
 	if (now - last_time >= 2.0/30.0)
 	{
 		draw_basic_map(ptr);
-		if (data->x < 16 && data->y < 16)
+		if (data->x < 32 && data->y < 32)
 		{
 			if (data->x % 4)
 				data->x++;
