@@ -6,7 +6,7 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 20:53:34 by nimatura          #+#    #+#             */
-/*   Updated: 2026/01/15 19:33:16 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/01/15 22:24:36 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,24 +28,6 @@ library.
 
 #ifndef CUB3D_H
 # define CUB3D_H
-
-# ifndef MMAP_PADDING
-# endif
-
-# ifndef MMAP_TILE_SIDE
-# endif
-
-# ifndef MMAP_SIDE
-# endif
-
-# ifndef TILE_SIZE
-# endif
-
-# ifndef HEIGHT
-# endif
-
-# ifndef WIDTH
-# endif
 
 #include "../lib/MLX42/include/MLX42/MLX42.h"
 #include "../lib/MLX42/include/MLX42/MLX42_Int.h"
@@ -98,8 +80,14 @@ typedef struct	data_s
 	const_t		c;
 }				data_t;
 
+/* SETUP */
+void	set_constants(const_t *c);
+int		set_mapdata(mapdata_t *d);
+int		set_mmap(data_t *d, const_t c);
+int		set_mlx(data_t	*d);
+
 int		ft_pixel(int r, int g, int b, int a);
-void ft_randomize(void* param);
-void ft_hook(void *param);
+void	ft_randomize(void* param);
+void	ft_hook(void *param);
 
 #endif
