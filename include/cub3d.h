@@ -6,7 +6,7 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 20:53:34 by nimatura          #+#    #+#             */
-/*   Updated: 2025/12/29 16:46:00 by nimatura         ###   ########.fr       */
+/*   Updated: 2026/01/15 19:33:16 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,22 @@ library.
 #ifndef CUB3D_H
 # define CUB3D_H
 
+# ifndef MMAP_PADDING
+# endif
+
+# ifndef MMAP_TILE_SIDE
+# endif
+
+# ifndef MMAP_SIDE
+# endif
+
 # ifndef TILE_SIZE
-#  define TILE_SIZE 64
 # endif
-# ifndef WIDTH
-#  define WIDTH TILE_SIZE * 16
-# endif
+
 # ifndef HEIGHT
-#  define HEIGHT TILE_SIZE * 9
+# endif
+
+# ifndef WIDTH
 # endif
 
 #include "../lib/MLX42/include/MLX42/MLX42.h"
@@ -48,12 +56,46 @@ library.
 
 #include <string.h> //memset
 
+typedef struct	paint_pixel_s
+{
+	int	start_x;
+	int	px;
+	int	start_y;
+	int	py;
+}				paint_pixel_t;
+
+typedef struct	mapdata_s
+{
+	char	*map;
+	int		size;
+	char	x;
+	char	y;
+}				mapdata_t;
+
+typedef struct	mmap_s
+{
+	mlx_image_t	*img;
+	int32_t		*pos_x;
+	int32_t		*pos_y;
+}				mmap_t;
+
+typedef struct	constants_s
+{
+	int	mmap_padding;
+	int	mmap_tile_side;
+	int	mmap_img_side;
+	int	tile_size;
+	int	height;
+	int	width;
+}				const_t;
+
 typedef struct	data_s
 {
+	mapdata_t	mapdata;
+	mmap_t		mmap;
 	mlx_t		*mlx;
 	mlx_image_t	*img;
-	int			x;
-	int			y;
+	const_t		c;
 }				data_t;
 
 int		ft_pixel(int r, int g, int b, int a);
