@@ -6,7 +6,7 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 18:56:19 by nimatura          #+#    #+#             */
-/*   Updated: 2026/01/16 16:37:09 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/01/16 18:17:20 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,10 @@ void	handle_mmap(void	*ptr)
 	i = 0;
 	while (i < data->mapdata.size)
 	{
-		color = set_color(data->mapdata.map[i]);
+		color = set_color_mmap(data->mapdata.map[i]);
 		paint_pixel_mmap(data, i % data->mapdata.x, i / data->mapdata.x, color);
-		paint_grid_mmap(data, i % data->mapdata.x, i / data->mapdata.x, color);
 		i++;
 	}
-}
-
-int	exit_err(void)
-{
-	printf("%s\n", mlx_strerror(mlx_errno));
-	return (EXIT_FAILURE);
 }
 
 int	main(void)
