@@ -6,7 +6,7 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 22:20:07 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/01/16 18:21:30 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/01/16 18:49:20 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,21 +31,26 @@ void	set_constants(const_t *c)
 
 int	set_mapdata(mapdata_t *d)
 {
+	int	i;
 	char	map[] = {
 		'1', '1', '1', '1',
 		'1', '0', '0', '1',
 		'1', '0', '0', '1',
 		'1', '1', '1', '1',
 	};
+
+	i = 0;
 	d->x = 4;
 	d->y = 4;
 	d->size = d->x * d->y;
 	d->map = calloc(d->size, sizeof(char));
 	if (d->map == NULL)
 		return (-1);
-	for (int i = 0; i < d->size; i++)
+	while (i < d->size)
+	{
 		d->map[i] = map[i];
-	
+		i++;
+	}
 	return (0);
 }
 
@@ -59,7 +64,8 @@ static int	set_mmap(data_t *d, const_t c)
 		mlx_close_window(d->mlx);
 		return (-1);
 	}
-	if (mlx_image_to_window(d->mlx, d->mmap.img, c.width - 190, c.height - 190) == -1)
+	if (mlx_image_to_window(d->mlx, d->mmap.img, c.width - size \
+						 , c.height - size) == -1)
 	{
 		mlx_terminate(d->mlx);
 		mlx_close_window(d->mlx);

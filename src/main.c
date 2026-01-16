@@ -6,7 +6,7 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 18:56:19 by nimatura          #+#    #+#             */
-/*   Updated: 2026/01/16 18:17:20 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/01/16 18:59:22 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 #include "MLX42/MLX42_Int.h"
 #include <stdio.h>
 #include <strings.h>
-
-/* Referenced in /doc/colors.md as get_rgba */
 
 void ft_hook(void* param)
 {
@@ -27,9 +25,8 @@ void ft_hook(void* param)
 		mlx_close_window(d->mlx);
 }
 
-void	handle_mmap(void	*ptr)
+void	render_mmap(data_t *data)
 {
-	data_t	*data = (data_t *)ptr;
 	int32_t	color;
 	int		i;
 
@@ -42,6 +39,17 @@ void	handle_mmap(void	*ptr)
 	}
 }
 
+void	render_frame(void *ptr)
+{
+	data_t	*data = (data_t *)ptr;
+
+	ft_hook(ptr);
+	// update_cam();
+	
+	render_mmap(data);
+	// render_view();
+}
+
 int	main(void)
 {
 	data_t	d = {0};
@@ -50,12 +58,8 @@ int	main(void)
 		return (EXIT_SUCCESS);
 	set_constants(&d.c);
 	if (set_mlx(&d) == -1)
-		return (exit_err());
-	mlx_loop_hook(d.mlx, ft_hook, &d);
-	mlx_loop_hook(d.mlx, handle_mmap, &d);
+		return (terminate_cub(&d, -1));
+	mlx_loop_hook(d.mlx, render_frame, &d);
 	mlx_loop(d.mlx);
-	free(d.mapdata.map);
-	free(d.mmap.pos_x);
-	free(d.mmap.pos_y);
-	return (mlx_terminate(d.mlx), EXIT_SUCCESS);
+	return (terminate_cub(&d, 0));
 }

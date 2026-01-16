@@ -6,7 +6,7 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 20:53:34 by nimatura          #+#    #+#             */
-/*   Updated: 2026/01/16 18:16:18 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/01/16 18:59:14 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,6 @@ typedef struct	mapdata_s
 typedef struct	mmap_s
 {
 	mlx_image_t	*img;
-	int32_t		*pos_x;
-	int32_t		*pos_y;
 }				mmap_t;
 
 /* HEIGHT and WIDTH are window related */
@@ -85,13 +83,13 @@ typedef struct	constants_s
 typedef struct	camera_s
 {
 	mlx_image_t	*img;
+	player_t	player;
 }				cam_t;
 
 typedef struct	data_s
 {
 	cam_t		cam;
 	mapdata_t	mapdata;
-	player_t	pdata;
 	mmap_t		mmap;
 	mlx_t		*mlx;
 	const_t		c;
@@ -112,7 +110,9 @@ int32_t color_px(int32_t r, int32_t g, int32_t b, int32_t a);
 void	ft_hook(void *param);
 
 /* EXIT */
-int	terminate_cub(data_t *d, mmap_t *mmap, int err);
 int	exit_err(void);
+int	terminate_cub_ui(data_t *d, mmap_t *mmap, int err);
+int	terminate_cub_data(data_t *d, int err);
+int	terminate_cub(data_t *d, int err);
 
 #endif
