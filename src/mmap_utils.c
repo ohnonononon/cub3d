@@ -6,7 +6,7 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 16:31:23 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/01/16 18:22:13 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/01/16 20:52:55 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,3 @@ static int	check_px_limit_mmap(int x, int y, int limit)
 		return (0);
 	return (1);
 }*/
-

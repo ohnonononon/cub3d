@@ -6,7 +6,7 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 22:20:07 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/01/16 19:07:34 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/01/16 21:28:32 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ void	set_constants(const_t *c)
 {
 	c->mmap_padding = 1;
 	c->mmap_tile_side = 27;
-	c->mmap_img_side = c->mmap_tile_side * 7;
+	c->mmap_tile_line_count = 7;
+	c->mmap_img_side = c->mmap_tile_side * c->mmap_tile_line_count;
+	c->pl_radius = 3;
 	c->tile_size = 64;
 	c->height = c->tile_size * 9;
 	c->width = c->tile_size * 16;

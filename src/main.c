@@ -6,7 +6,7 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 18:56:19 by nimatura          #+#    #+#             */
-/*   Updated: 2026/01/16 19:10:16 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/01/16 21:29:41 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,44 +24,55 @@ void ft_hook(void* param)
 	if (mlx_is_key_down(d->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(d->mlx);
 }
+#include <math.h>
 
-void	render_mmap_player(mmap_t *map, player_t *pdata)
+// Draw a filled circle in the minimap
+// Update minimap moving: redraw player circle
+void handle_mmap_moving(t_data *d)
 {
-	(void)map;
-	(void)pdata;
+    int px, py;
+    int player_radius = 3;        // radius in minimap pixels
+    uint32_t player_color = 0xFF0000FF; // ARGB: opaque red
+
+    // Clear minimap first (optional: fill with background)
+    for (int y = 0; y < d->mmap_height; y++)
+    {
+        for (int x = 0; x < d->mmap_width; x++)
+            mlx_put_pixel(d->mmap, x, y, 0x00000000); // transparent / black
+    }
+
 }
 
-void	render_mmap(data_t *d, player_t	*pdata)
+// iterates on the ammount of tiles
+void	render_mmap(data_t *d, player_t	*pl)
 {
-	int32_t	color;
-	int		i;
+	static pair_t	c;
+	int32_t			color;
+	int				y;
 
-	i = 0;
-	while (i < d->mapdata.size)
+	y = 0;
+	while (i < d->c.mmap_tile_line_count)
 	{
 		color = set_color_mmap(d->mapdata.map[i]);
 		paint_pixel_mmap(d, i % d->mapdata.x, i / d->mapdata.x, color);
 		i++;
 	}
-	(void)pdata;
-	// render_mmap_player(&d->mmap, pdata);
+	c.x = (int)(d->player.x * d->c.mmap_scale);
+	c.y = (int)(d->player.y * d->c.mmap_scale);
+	draw_player(&d->mmap, c, d->c.pl_radius);
 }
 
 void	render_frame(void *ptr)
 {
 	data_t		*d;
-	player_t	*pdata;
 
 	d = (data_t *)ptr;
-	pdata = &d->cam.player;
-	// pdata->x = 100;
-	// pdata->y = 100;
-	//
 	ft_hook(ptr);
 	// update_cam();
 	
-	render_mmap(d, pdata);
-	// render_view();
+	render_mmap(d, &d->player);
+	// render_mmap_player(&d->mmap, pdata);
+	// render_view(); no existe porque no hace falta pintarlo.
 }
 
 int	main(void)
@@ -73,6 +84,8 @@ int	main(void)
 	set_constants(&d.c);
 	if (set_mlx(&d) == -1)
 		return (terminate_cub(&d, -1));
+	// if (set_player(&d.player, &d.cam) == -1)
+	// 	return (terminate_cub(&d, -1));
 	mlx_loop_hook(d.mlx, render_frame, &d);
 	mlx_loop(d.mlx);
 	return (terminate_cub(&d, 0));

@@ -6,7 +6,7 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 20:53:34 by nimatura          #+#    #+#             */
-/*   Updated: 2026/01/16 18:59:14 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/01/16 21:28:01 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,18 @@ library.
 
 #include <string.h> //memset
 
+typedef struct	pair_s
+{
+	float	x;
+	float	y;
+}				pair_t;
 typedef struct	player_s
 {
-	double	x;
-	double	y;
+	float	x;
+	float	y;
 	double	dir_x;
 	double	dir_y;
+	int	rad_size;
 }				player_t;
 
 typedef struct	paint_pixel_s
@@ -67,6 +73,8 @@ typedef struct	mapdata_s
 typedef struct	mmap_s
 {
 	mlx_image_t	*img;
+	double		side;
+	player_t	player;
 }				mmap_t;
 
 /* HEIGHT and WIDTH are window related */
@@ -75,6 +83,9 @@ typedef struct	constants_s
 	int	mmap_padding;
 	int	mmap_tile_side;
 	int	mmap_img_side;
+	int	mmap_scale;
+	int	mmap_tile_line_count;
+	int	pl_radius;
 	int	tile_size;
 	int	height;
 	int	width;
@@ -83,22 +94,27 @@ typedef struct	constants_s
 typedef struct	camera_s
 {
 	mlx_image_t	*img;
-	player_t	player;
+	player_t	*player;
 }				cam_t;
 
 typedef struct	data_s
 {
-	cam_t		cam;
 	mapdata_t	mapdata;
-	mmap_t		mmap;
-	mlx_t		*mlx;
 	const_t		c;
+	mlx_t		*mlx;
+	cam_t		cam;
+	mmap_t		mmap;
+	player_t	player;
 }				data_t;
 
 /* SETUP */
 void	set_constants(const_t *c);
 int		set_mapdata(mapdata_t *d);
 int		set_mlx(data_t	*d);
+
+/* PLAYER */
+void	set_player(player_t *d, cam_t *cam);
+void	draw_player(mmap_t *mmap, pair_t c, int radius);
 
 /* MMAP UTILS */
 int32_t	set_color_mmap(char type);
