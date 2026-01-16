@@ -6,7 +6,7 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 20:53:34 by nimatura          #+#    #+#             */
-/*   Updated: 2026/01/15 22:24:36 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/01/16 16:36:41 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,14 @@ library.
 #include <stdbool.h>
 
 #include <string.h> //memset
+
+typedef struct	player_s
+{
+	double	x;
+	double	y;
+	double	dir_x;
+	double	dir_y;
+}				player_t;
 
 typedef struct	paint_pixel_s
 {
@@ -86,8 +94,15 @@ int		set_mapdata(mapdata_t *d);
 int		set_mmap(data_t *d, const_t c);
 int		set_mlx(data_t	*d);
 
-int		ft_pixel(int r, int g, int b, int a);
-void	ft_randomize(void* param);
+/* MMAP UTILS */
+int32_t	set_color(char type);
+int		check_px_limit_mmap(int x, int y, int limit);
+void	paint_pixel_mmap(data_t *d, int x, int y, uint32_t color);
+void	paint_grid_mmap(data_t *d, int x, int y, uint32_t color);
+
+/* DRAW UTILS */
+int32_t color_px(int32_t r, int32_t g, int32_t b, int32_t a);
+
 void	ft_hook(void *param);
 
 #endif
