@@ -6,7 +6,7 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 22:20:07 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/01/16 18:49:20 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/01/16 19:07:34 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,12 +93,12 @@ int	set_mlx(data_t	*d)
 {
 	d->mlx = NULL;
 	if (!(d->mlx = mlx_init(d->c.width, d->c.height, "CUB3D", true)))
-		return (terminate_cub(d, &d->mmap, 1));
+		return (terminate_cub_ui(d, &d->mmap, 1));
 	d->cam.img = NULL;
 	if (set_camera(d, d->c.width, d->c.height) == -1)
-		return (terminate_cub(d, &d->mmap, 1));
+		return (terminate_cub_ui(d, &d->mmap, 1));
 	d->mmap.img = NULL;
 	if (set_mmap(d, d->c) == -1)
-		return (terminate_cub(d, &d->mmap, 1));
+		return (terminate_cub_ui(d, &d->mmap, 1));
 	return (0);
 }

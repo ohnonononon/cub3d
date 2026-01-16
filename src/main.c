@@ -6,7 +6,7 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 18:56:19 by nimatura          #+#    #+#             */
-/*   Updated: 2026/01/16 18:59:22 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/01/16 19:10:16 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,28 +25,42 @@ void ft_hook(void* param)
 		mlx_close_window(d->mlx);
 }
 
-void	render_mmap(data_t *data)
+void	render_mmap_player(mmap_t *map, player_t *pdata)
+{
+	(void)map;
+	(void)pdata;
+}
+
+void	render_mmap(data_t *d, player_t	*pdata)
 {
 	int32_t	color;
 	int		i;
 
 	i = 0;
-	while (i < data->mapdata.size)
+	while (i < d->mapdata.size)
 	{
-		color = set_color_mmap(data->mapdata.map[i]);
-		paint_pixel_mmap(data, i % data->mapdata.x, i / data->mapdata.x, color);
+		color = set_color_mmap(d->mapdata.map[i]);
+		paint_pixel_mmap(d, i % d->mapdata.x, i / d->mapdata.x, color);
 		i++;
 	}
+	(void)pdata;
+	// render_mmap_player(&d->mmap, pdata);
 }
 
 void	render_frame(void *ptr)
 {
-	data_t	*data = (data_t *)ptr;
+	data_t		*d;
+	player_t	*pdata;
 
+	d = (data_t *)ptr;
+	pdata = &d->cam.player;
+	// pdata->x = 100;
+	// pdata->y = 100;
+	//
 	ft_hook(ptr);
 	// update_cam();
 	
-	render_mmap(data);
+	render_mmap(d, pdata);
 	// render_view();
 }
 
