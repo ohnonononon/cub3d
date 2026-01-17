@@ -6,7 +6,7 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 20:53:34 by nimatura          #+#    #+#             */
-/*   Updated: 2026/01/17 21:05:48 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/01/17 21:20:54 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ typedef struct	data_s
 }				data_t;
 
 /* MAIN */
-void	display(void *ptr);
+void	program_loop(void *ptr);
 
 /* SETUP */
 void	set_constants(const_t *c);
