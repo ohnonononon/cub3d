@@ -6,7 +6,7 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 16:31:23 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/01/16 20:52:55 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/01/17 14:47:09 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int32_t	set_color_mmap(char type)
 	color = 0;
 	if (type == '1')
 		color = color_px(134, 168, 231, 120);
-	else if (type == '0')
+	else if (type == '0' || type == 'N' || type == 'E' || type == 'W' || type == 'S')
 		color = color_px(95, 251, 241, 120);
 	else
 		color = color_px(209, 107, 165, 120);

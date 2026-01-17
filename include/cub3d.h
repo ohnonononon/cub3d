@@ -6,7 +6,7 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 20:53:34 by nimatura          #+#    #+#             */
-/*   Updated: 2026/01/16 21:28:01 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/01/17 16:17:45 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,10 @@ typedef struct	pair_s
 }				pair_t;
 typedef struct	player_s
 {
-	float	x;
-	float	y;
+	pair_t	p;
 	double	dir_x;
 	double	dir_y;
-	int	rad_size;
+	int		rad_size;
 }				player_t;
 
 typedef struct	paint_pixel_s
@@ -66,6 +65,7 @@ typedef struct	mapdata_s
 {
 	char	*map;
 	int		size;
+	pair_t	player_pos;
 	char	x;
 	char	y;
 }				mapdata_t;
@@ -83,8 +83,8 @@ typedef struct	constants_s
 	int	mmap_padding;
 	int	mmap_tile_side;
 	int	mmap_img_side;
-	int	mmap_scale;
 	int	mmap_tile_line_count;
+	double	mmap_scale;
 	int	pl_radius;
 	int	tile_size;
 	int	height;
@@ -124,6 +124,9 @@ void	paint_pixel_mmap(data_t *d, int x, int y, uint32_t color);
 int32_t color_px(int32_t r, int32_t g, int32_t b, int32_t a);
 
 void	ft_hook(void *param);
+
+/* BUTTONS */
+void	buttons(mlx_key_data_t keydata, void *param);
 
 /* EXIT */
 int	exit_err(void);

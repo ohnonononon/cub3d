@@ -6,7 +6,7 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 17:43:39 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/01/16 21:20:00 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/01/17 14:44:25 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 void	set_player(player_t *d, cam_t *cam)
 {
 	(*cam).player = d;
+	d->p.x = 85;
+	d->p.y = 85;
 }
 
 static void	render_player(mmap_t *mmap, pair_t p, pair_t c, int radius)

@@ -6,7 +6,7 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 22:20:07 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/01/16 21:28:32 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/01/17 16:01:20 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ void	set_constants(const_t *c)
 	c->mmap_tile_side = 27;
 	c->mmap_tile_line_count = 7;
 	c->mmap_img_side = c->mmap_tile_side * c->mmap_tile_line_count;
-	c->pl_radius = 3;
+	c->mmap_scale = 0.5; // max 0.5 to fit into map
+	c->pl_radius = 8;
 	c->tile_size = 64;
 	c->height = c->tile_size * 9;
 	c->width = c->tile_size * 16;
@@ -37,8 +38,8 @@ int	set_mapdata(mapdata_t *d)
 	char	map[] = {
 		'1', '1', '1', '1',
 		'1', '0', '0', '1',
-		'1', '0', '0', '1',
-		'1', '1', '1', '1',
+		'1', 'N', '1', '1',
+		'1', '1', '1', ' ',
 	};
 
 	i = 0;
