@@ -6,7 +6,7 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 22:20:07 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/01/17 16:01:20 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/01/17 18:08:26 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,10 @@ static int	set_mmap(data_t *d, const_t c)
 
 	size = c.mmap_img_side + 1;
 	if (!(d->mmap.img = mlx_new_image(d->mlx, size, size)))
-	{
-		mlx_close_window(d->mlx);
 		return (-1);
-	}
 	if (mlx_image_to_window(d->mlx, d->mmap.img, c.width - size \
 						 , c.height - size) == -1)
-	{
-		mlx_terminate(d->mlx);
-		mlx_close_window(d->mlx);
 		return (-1);
-	}
 	return (0);
 }
 

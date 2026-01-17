@@ -6,7 +6,7 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 16:31:23 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/01/17 14:47:09 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/01/17 17:07:20 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,10 @@ int32_t	set_color_mmap(char type)
 	else if (type == '0' || type == 'N' || type == 'E' || type == 'W' || type == 'S')
 		color = color_px(95, 251, 241, 120);
 	else
-		color = color_px(209, 107, 165, 120);
+		color = color_px(209, 107, 165, 0);
 	return (color);
 }
+
 static int	is_padding(paint_pixel_t i)
 {
 	return (i.px < i.start_x + i.pad || \
