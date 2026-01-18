@@ -6,7 +6,7 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 18:56:19 by nimatura          #+#    #+#             */
-/*   Updated: 2026/01/17 21:29:24 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/01/18 16:08:01 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,12 @@ void	program_loop(void *ptr)
 
 	d = (data_t *)ptr;
 
+	print_dbg(d);
 	if (throttle_fps() == -1)
 		return ;
 	key_hooks(d);
 	render_cam(d);
 	render_mmap(d, &d->player);
-	print_dbg(d);
 }
 
 int	main(void)
