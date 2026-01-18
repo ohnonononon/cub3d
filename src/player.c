@@ -6,7 +6,7 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 17:43:39 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/01/18 17:49:19 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/01/18 23:59:12 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,6 @@ static void	render_player(mmap_t *mmap, fpair_t p, fpair_t c, double radius)
 	}
 }
 
-// Draws player as a circle. var c is the definitive origin point.
-// C is position.
-// P is total area space
 void	draw_player(mmap_t *mmap, fpair_t c, int radius, double scale)
 {
 	fpair_t	p;
@@ -61,55 +58,5 @@ void	draw_player(mmap_t *mmap, fpair_t c, int radius, double scale)
 			p.x++;
 		}
 		p.y++;
-	}
-}
-
-line_t	calculate_sensor(mmap_t *mmap, fpair_t start, double scale)
-{
-	line_t	d;
-
-	d.start.x = start.x + mmap->player->dp.x * mmap->player->rad_size;
-	d.start.y = start.y + mmap->player->dp.y * mmap->player->rad_size;
-	d.end.x = start.x + mmap->player->dp.x * 30;
-	d.end.y = start.y + mmap->player->dp.y * 30;
-	d.start.x *= scale;
-	d.start.y *= scale;
-	d.end.x *= scale;
-	d.end.y *= scale;
-	d.delta.x = -(d.end.x - d.start.x);
-	d.delta.y = -(d.end.y - d.start.y);
-	d.steps = util_get_max(d.delta.x, d.delta.y);
-	d.width.x = -mmap->player->dp.y;
-	d.width.y = mmap->player->dp.x;
-	// d.color = color_px(209, 107, 165, 255); // coolest color tho
-	d.color = color_px(0, 0, 0, 255);
-	return (d);
-}
-
-// d as data, n as new.
-void	draw_sensor(mmap_t	*mmap, fpair_t start, double scale, line_t *d)
-{
-	fpair_t	n;
-	fpair_t	inc;
-	int		i;
-	int		w;
-
-	*d = calculate_sensor(mmap, start, scale);
-	w = -2;
-	while (++w <= 1)
-	{
-		n.x = d->start.x + d->width.x * (float) w;
-		n.y = d->start.y + d->width.y * (float) w;
-		inc.x = d->delta.x / d->steps;
-		inc.y = d->delta.y / d->steps;
-		i = d->steps;
-		while (i--)
-		{
-			if (n.x >= 0&& n.x < mmap->img->width && \
-				n.y >= 0 && n.y < mmap->img->height)
-				mlx_put_pixel(mmap->img, n.x, n.y, d->color);
-			n.x += inc.x;
-			n.y += inc.y;
-		}
 	}
 }

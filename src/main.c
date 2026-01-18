@@ -6,7 +6,7 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 18:56:19 by nimatura          #+#    #+#             */
-/*   Updated: 2026/01/18 17:47:23 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/01/19 00:09:59 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,46 @@
 #include <math.h>
 
 // iterates on the ammount of tiles
+
+void	calculate_line_mmap(player_t *p, line_t *line, fpair_t start, double scale)
+{
+	line->start.x = (start.x + p->dp.x * p->rad_size) * scale;
+	line->start.y = (start.y + p->dp.y * p->rad_size) * scale;
+	line->end.x = (start.x + p->dp.x * 30) * scale;
+	line->end.y = (start.y + p->dp.y * 30) * scale;
+	line->delta.x = -(line->end.x - line->start.x);
+	line->delta.y = -(line->end.y - line->start.y);
+	line->draw.steps = util_get_max(line->delta.x, line->delta.y);
+	line->draw.thick.x = -p->dp.y;
+	line->draw.thick.y = p->dp.x;
+	line->draw.color = color_px(209, 107, 165, 255); // coolest color tho
+}
+
+void	draw_line_mmap(mlx_image_t *img, fpair_t start, fpair_t delta, draw_t draw)
+{
+	fpair_t	pos;
+	fpair_t	inc;
+	int		i;
+	int		w;
+
+	w = -2;
+	while (++w <= 1)
+	{
+		pos.x = start.x + draw.thick.x * (float) w;
+		pos.y = start.y + draw.thick.y * (float) w;
+		inc.x = delta.x / draw.steps;
+		inc.y = delta.y / draw.steps;
+		i = draw.steps;
+		while (i--)
+		{
+			if (pos.x >= 0&& pos.x < img->width && \
+				pos.y >= 0 && pos.y < img->height)
+				mlx_put_pixel(img, pos.x, pos.y, draw.color);
+			pos.x += inc.x;
+			pos.y += inc.y;
+		}
+	}
+}
 void	render_mmap(data_t *d, player_t	*pl)
 {
 	int32_t		color;
@@ -30,7 +70,8 @@ void	render_mmap(data_t *d, player_t	*pl)
 		i++;
 	}
 	draw_player(&d->mmap, pl->p, d->c.pl_radius, d->c.mmap_scale);
-	draw_sensor(&d->mmap, pl->p, d->c.mmap_scale, &d->player.line);
+	calculate_line_mmap(pl, &d->line, pl->p, d->c.mmap_scale);
+	draw_line_mmap(d->mmap.img, d->line.start, d->line.delta, d->line.draw);
 }
 
 void	render_cam(data_t *d)
@@ -136,9 +177,11 @@ void	program_loop(void *ptr)
 	if (throttle_fps() == -1)
 		return ;
 	key_hooks(d);
+
+	// calculate_rays(d, &d->player);
+
 	render_cam(d);
 	render_mmap(d, &d->player);
-	calculate_rays(d, &d->player);
 }
 
 int	main(void)

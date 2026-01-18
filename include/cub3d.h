@@ -6,7 +6,7 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 20:53:34 by nimatura          #+#    #+#             */
-/*   Updated: 2026/01/18 17:47:10 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/01/19 00:05:36 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,20 +76,24 @@ typedef struct	frays_s
 	float	ra;
 }				frays_t;
 
+typedef struct	draw_s
+{
+	fpair_t	thick;
+	int		steps;
+	int32_t	color;
+}				draw_t;
+
 typedef struct	line_s
 {
-	fpair_t	start;
-	fpair_t	end;
-	fpair_t	delta;
-	fpair_t	width;
-	int		steps;
-	int		scale;
-	int32_t	color;
+	fpair_t		start;
+	fpair_t		end;
+	fpair_t		delta;
+	int			scale;
+	draw_t		draw;
 }				line_t;
 
 typedef struct	player_s
 {
-	line_t	line;
 	fpair_t	p;
 	fpair_t	dp;
 	float	angle;
@@ -151,6 +155,7 @@ typedef struct	data_s
 	cam_t		cam;
 	mmap_t		mmap;
 	player_t	player;
+	line_t		line;
 	mlx_image_t	*debug;
 }				data_t;
 
@@ -162,9 +167,12 @@ void	set_constants(const_t *c);
 int		set_mapdata(mapdata_t *d);
 int		set_mlx(data_t	*d);
 
+/* player 2 */
+void	draw_line_mmap(mlx_image_t *img, fpair_t start, fpair_t delta, draw_t draw);
+
 /* PLAYER */
 void	set_player(player_t *d, cam_t *cam, mmap_t *mmap);
-void	draw_sensor(mmap_t	*mmap, fpair_t start, double scale, line_t *d);
+// void	draw_sensor(mmap_t	*mmap, fpair_t start, double scale, line_t *d);
 void	draw_player(mmap_t *mmap, fpair_t c, int radius, double scale);
 
 /* MMAP UTILS */
@@ -173,6 +181,8 @@ void	paint_pixel_mmap(data_t *d, int x, int y, uint32_t color);
 
 /* DRAW UTILS */
 int32_t color_px(int32_t r, int32_t g, int32_t b, int32_t a);
+void	draw_line_mmap(mlx_image_t *img, fpair_t start, fpair_t delta, draw_t draw);
+void	calculate_line_mmap(player_t *p, line_t *line, fpair_t start, double scale);
 
 /* BUTTONS */
 void	key_hooks(void *param);
