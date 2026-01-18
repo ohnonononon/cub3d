@@ -6,7 +6,7 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 17:43:39 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/01/18 17:44:53 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/01/18 17:49:19 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ line_t	calculate_sensor(mmap_t *mmap, fpair_t start, double scale)
 	d.steps = util_get_max(d.delta.x, d.delta.y);
 	d.width.x = -mmap->player->dp.y;
 	d.width.y = mmap->player->dp.x;
-	// d.color = color_px(209, 107, 165, 255);
+	// d.color = color_px(209, 107, 165, 255); // coolest color tho
 	d.color = color_px(0, 0, 0, 255);
 	return (d);
 }

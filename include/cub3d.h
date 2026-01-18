@@ -6,7 +6,7 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 20:53:34 by nimatura          #+#    #+#             */
-/*   Updated: 2026/01/18 17:44:27 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/01/18 17:47:10 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,21 @@ typedef struct	fpair_s
 	float	x;
 	float	y;
 }				fpair_t;
+
+typedef struct	irays_s
+{
+	int		r;
+	ipair_t	m;
+	int		mp;
+	int		dof;
+}				irays_t;
+
+typedef struct	frays_s
+{
+	fpair_t	r;
+	fpair_t	o;
+	float	ra;
+}				frays_t;
 
 typedef struct	line_s
 {
