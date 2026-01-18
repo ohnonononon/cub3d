@@ -6,7 +6,7 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 20:53:34 by nimatura          #+#    #+#             */
-/*   Updated: 2026/01/17 21:20:54 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/01/18 17:44:27 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,10 @@ typedef struct	line_s
 	fpair_t	start;
 	fpair_t	end;
 	fpair_t	delta;
+	fpair_t	width;
 	int		steps;
 	int		scale;
+	int32_t	color;
 }				line_t;
 
 typedef struct	player_s
@@ -113,6 +115,7 @@ typedef struct	constants_s
 	int	mmap_img_side;
 	int	mmap_tile_line_count;
 	double	mmap_scale;
+	float	eps;
 	int	pl_radius;
 	int	tile_size;
 	int	height;
@@ -160,15 +163,15 @@ int32_t color_px(int32_t r, int32_t g, int32_t b, int32_t a);
 void	key_hooks(void *param);
 
 /* EXIT */
-int	exit_err(void);
-int	terminate_cub_ui(data_t *d, mmap_t *mmap, int err);
-int	terminate_cub_data(data_t *d, int err);
-int	terminate_cub(data_t *d, int err);
+int		exit_err(void);
+int		terminate_cub_ui(data_t *d, mmap_t *mmap, int err);
+int		terminate_cub_data(data_t *d, int err);
+int		terminate_cub(data_t *d, int err);
 
 /* MATH UTLS */
 
-int util_roundf(float x);
-int	util_get_max(float a, float b);
+int		util_roundf(float x);
+int		util_get_max(float a, float b);
 
 /* DEBUG */
 void	debug_player_line(char *buf, size_t bufsize,

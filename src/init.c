@@ -6,7 +6,7 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 22:20:07 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/01/17 18:08:26 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/01/18 17:01:30 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	set_constants(const_t *c)
 	c->tile_size = 64;
 	c->height = c->tile_size * 9;
 	c->width = c->tile_size * 16;
+	c->eps = 0.0001f;
 }
 
 int	set_mapdata(mapdata_t *d)

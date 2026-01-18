@@ -6,7 +6,7 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 17:43:39 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/01/17 21:14:37 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/01/18 17:44:53 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ line_t	calculate_sensor(mmap_t *mmap, fpair_t start, double scale)
 
 	d.start.x = start.x + mmap->player->dp.x * mmap->player->rad_size;
 	d.start.y = start.y + mmap->player->dp.y * mmap->player->rad_size;
-	d.end.x = start.x + mmap->player->dp.x * 200;
-	d.end.y = start.y + mmap->player->dp.y * 200;
+	d.end.x = start.x + mmap->player->dp.x * 30;
+	d.end.y = start.y + mmap->player->dp.y * 30;
 	d.start.x *= scale;
 	d.start.y *= scale;
 	d.end.x *= scale;
@@ -79,6 +79,10 @@ line_t	calculate_sensor(mmap_t *mmap, fpair_t start, double scale)
 	d.delta.x = -(d.end.x - d.start.x);
 	d.delta.y = -(d.end.y - d.start.y);
 	d.steps = util_get_max(d.delta.x, d.delta.y);
+	d.width.x = -mmap->player->dp.y;
+	d.width.y = mmap->player->dp.x;
+	// d.color = color_px(209, 107, 165, 255);
+	d.color = color_px(0, 0, 0, 255);
 	return (d);
 }
 
@@ -87,22 +91,25 @@ void	draw_sensor(mmap_t	*mmap, fpair_t start, double scale, line_t *d)
 {
 	fpair_t	n;
 	fpair_t	inc;
-	int32_t	color;
 	int		i;
+	int		w;
 
 	*d = calculate_sensor(mmap, start, scale);
-	n.x = d->start.x;
-	n.y = d->start.y;
-	inc.x = d->delta.x / d->steps;
-	inc.y = d->delta.y / d->steps;
-	color = color_px(209, 107, 165, 255);
-	i = d->steps;
-	while (i--)
+	w = -2;
+	while (++w <= 1)
 	{
-		if (n.x >= 0&& n.x < mmap->img->width && \
-			n.y >= 0 && n.y < mmap->img->height)
-			mlx_put_pixel(mmap->img, n.x, n.y, color);
-		n.x += inc.x;
-		n.y += inc.y;
+		n.x = d->start.x + d->width.x * (float) w;
+		n.y = d->start.y + d->width.y * (float) w;
+		inc.x = d->delta.x / d->steps;
+		inc.y = d->delta.y / d->steps;
+		i = d->steps;
+		while (i--)
+		{
+			if (n.x >= 0&& n.x < mmap->img->width && \
+				n.y >= 0 && n.y < mmap->img->height)
+				mlx_put_pixel(mmap->img, n.x, n.y, d->color);
+			n.x += inc.x;
+			n.y += inc.y;
+		}
 	}
 }

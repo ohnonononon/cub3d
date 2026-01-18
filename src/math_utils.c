@@ -6,13 +6,13 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 18:36:46 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/01/17 18:37:09 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/01/18 17:15:12 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-int util_roundf(float x)
+int	util_roundf(float x)
 {
     if (x >= 0.0f)
         return ((int)(x + 0.5f));
