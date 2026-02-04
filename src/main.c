@@ -6,176 +6,195 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 18:56:19 by nimatura          #+#    #+#             */
-/*   Updated: 2025/12/29 16:49:13 by nimatura         ###   ########.fr       */
+/*   Updated: 2026/01/19 00:09:59 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
+#include "MLX42/MLX42.h"
+#include "MLX42/MLX42_Int.h"
+#include <math.h>
 
-/* Referenced in /doc/colors.md as get_rgba */
-int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
+// iterates on the ammount of tiles
+
+void	calculate_line_mmap(player_t *p, line_t *line, fpair_t start, double scale)
 {
-    return (r << 24 | g << 16 | b << 8 | a);
+	line->start.x = (start.x + p->dp.x * p->rad_size) * scale;
+	line->start.y = (start.y + p->dp.y * p->rad_size) * scale;
+	line->end.x = (start.x + p->dp.x * 30) * scale;
+	line->end.y = (start.y + p->dp.y * 30) * scale;
+	line->delta.x = -(line->end.x - line->start.x);
+	line->delta.y = -(line->end.y - line->start.y);
+	line->draw.steps = util_get_max(line->delta.x, line->delta.y);
+	line->draw.thick.x = -p->dp.y;
+	line->draw.thick.y = p->dp.x;
+	line->draw.color = color_px(209, 107, 165, 255); // coolest color tho
 }
 
-/* kept to study form and use */
-void ft_randomize(void* param)
+void	draw_line_mmap(mlx_image_t *img, fpair_t start, fpair_t delta, draw_t draw)
 {
-	data_t *d;
+	fpair_t	pos;
+	fpair_t	inc;
+	int		i;
+	int		w;
 
-	d = (data_t *)param;
-	for (uint32_t i = 0; i < d->img->width; ++i)
+	w = -2;
+	while (++w <= 1)
 	{
-		for (uint32_t y = 0; y < d->img->height; ++y)
+		pos.x = start.x + draw.thick.x * (float) w;
+		pos.y = start.y + draw.thick.y * (float) w;
+		inc.x = delta.x / draw.steps;
+		inc.y = delta.y / draw.steps;
+		i = draw.steps;
+		while (i--)
 		{
-			uint32_t color = ft_pixel(
-				rand() % 0xFF, // R
-				rand() % 0xFF, // G
-				rand() % 0xFF, // B
-				rand() % 0xFF  // A
-			);
-			mlx_put_pixel(d->img, i, y, color);
+			if (pos.x >= 0&& pos.x < img->width && \
+				pos.y >= 0 && pos.y < img->height)
+				mlx_put_pixel(img, pos.x, pos.y, draw.color);
+			pos.x += inc.x;
+			pos.y += inc.y;
 		}
 	}
 }
-
-/* commented lines move the canvas of the img, potential break there */
-void ft_hook(void* param)
+void	render_mmap(data_t *d, player_t	*pl)
 {
-	data_t	*d;
-	d = (data_t *)param;
+	int32_t		color;
+	int			i;
 
-	if (mlx_is_key_down(d->mlx, MLX_KEY_ESCAPE))
-		mlx_close_window(d->mlx);
-	// if (mlx_is_key_down(d->mlx, MLX_KEY_K))
-	// {
-	// 	if (d->j < 20) /* if more than that, it segfaults */
-	// 		d->j += 1;
-	// }
-	// if (mlx_is_key_down(d->mlx, MLX_KEY_J))
-	// {
-	// 	if (d->j > 0)
-	// 		d->j -= 1;
-	// }
-	// // if (mlx_is_key_down(d->mlx, MLX_KEY_LEFT))
-	// 	d->img->instances[0].x -= 5;
-	// if (mlx_is_key_down(d->mlx, MLX_KEY_RIGHT))
-	// 	d->img->instances[0].x += 5;
-}
-
-int	check_px_limit(int x, int limit)
-{
-	if (x < 0 || x > limit)
-		return (0);
-	return (1);
-}
-
-void	paint_pixel(data_t *d, int x, int y, uint32_t color)
-{
-	int	start_x;
-	int	px;
-	int	start_y;
-	int	py;
-
-	start_x = x * TILE_SIZE;
-	start_y = y * TILE_SIZE;
-	px = start_x;
-	while (px < start_x + TILE_SIZE)
+	(void)pl;
+	i = 0;
+	while (i < d->mapdata.size)
 	{
-		py = start_y;
-		while (py < start_y + TILE_SIZE)
+		color = set_color_mmap(d->mapdata.map[i]);
+		paint_pixel_mmap(d, i % d->mapdata.x, i / d->mapdata.x, color);
+		i++;
+	}
+	draw_player(&d->mmap, pl->p, d->c.pl_radius, d->c.mmap_scale);
+	calculate_line_mmap(pl, &d->line, pl->p, d->c.mmap_scale);
+	draw_line_mmap(d->mmap.img, d->line.start, d->line.delta, d->line.draw);
+}
+
+void	render_cam(data_t *d)
+{
+	ipair_t	i;
+
+	i.x = 0;
+	i.y = 0;
+	while (i.y < (int)d->cam.img->height)
+	{
+		while (i.x < (int)d->cam.img->width)
 		{
-			if (check_px_limit(px, WIDTH) && check_px_limit(py, HEIGHT))
-				mlx_put_pixel(d->img, px, py, color);
-			py++;
+			mlx_put_pixel(d->cam.img, i.x, i.y, color_px(30, 35, 45, 255));
+			i.x++;
 		}
-		px++;
+		i.y++;
+		i.x = 0;
 	}
 }
 
-static double	last_time = 0;
+#include <sys/time.h>
 
-void	draw_basic_map(void	*ptr)
+static double	get_time_ms(void)
 {
-	data_t	*data = (data_t *)ptr;
-	int	map[] = {
-		1, 1, 1, 1,
-		1, 0, 0, 1,
-		1, 0, 0, 1,
-		1, 1, 1, 1,
-	};
-	int32_t	color;
-	int	m_w = 4;
-	int	m_h = 4;
+    struct timeval	tv;
 
-	color = ft_pixel(255, 255, 255, 255);
-	for (int i = 0; i < m_w * m_h; ++i)
-	{
-		if (map[i] == 1)
-			color = ft_pixel(255, 0, 0, 120);
-		else if (map[i] == 0)
-			color = ft_pixel(255, 255, 255, 120);
-		paint_pixel(data, (data->x + i) % 4, (data->y + i) / 4, color);
-	}
+    gettimeofday(&tv, NULL);
+    return (tv.tv_sec * 1000.0 + tv.tv_usec / 1000.0);
 }
 
-void	fps_loop(void *ptr)
+int	throttle_fps()
 {
-	double	now = mlx_get_time();
-	data_t	*data = (data_t *)ptr;
-	if (now - last_time >= 2.0/30.0)
-	{
-		draw_basic_map(ptr);
-		if (data->x < 32 && data->y < 32)
-		{
-			if (data->x % 4)
-				data->x++;
-			if (data->y / 3)
-				data->y++;
-		}
-		else
-		{
-			data->x = 4;
-			data->y = 4;
-		}
-		last_time = now;
-	}
-}
+	static double	last_frame = 0;
+	double			now;
+	double			dt;
 
-int	exit_err(void)
-{
-	printf("%s\n", mlx_strerror(mlx_errno));
-	return (EXIT_FAILURE);
-}
-
-int	set_mlx(data_t	*d)
-{
-	if (!(d->mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true)))
+	now = get_time_ms();
+	dt = now - last_frame;
+	if (dt < 1000.0/60.0)
 		return (-1);
-	if (!(d->img = mlx_new_image(d->mlx, WIDTH, HEIGHT)))
+	last_frame = now;
+	return (0);
+}
+
+void	calculate_rays(data_t *data, player_t *pl)
+{
+	irays_t a;
+	frays_t	b;
+
+	b.ra = pl->angle;
+	a.r = 0;
+	while (a.r < 1)
 	{
-		mlx_close_window(d->mlx);
-		return (-1);
+		a.dof = 0;
+		float	aTan=-1/tan(b.ra);
+		if(b.ra > PI) // Looking up
+		{
+			b.r.y = (((int)pl->p.y >> 6) << 6) - 0.0001;
+			b.r.x = (pl->p.y - b.r.y) * aTan + pl->p.x;
+			b.o.y = -64;
+			b.o.x -= -b.o.y * aTan;
+		}
+		if(b.ra < PI) // Looking down
+		{
+			b.r.y = (((int)pl->p.y >> 6) << 6) + 64;
+			b.r.x = (pl->p.y - b.r.y) * aTan + pl->p.x;
+			b.o.y = 64;
+			b.o.x -= -b.o.y * aTan;
+		}
+		if (fabsf(b.ra) < data->c.eps || fabsf(b.ra - (float)PI) < data->c.eps)
+		{
+			b.r.x = pl->p.x;
+			b.r.y = pl->p.y;
+			a.dof = 8; // que chucha es dof
+		}
+		while (a.dof < 8)
+		{
+			a.m.x = (int) (b.r.x) >> 6;
+			a.m.y = (int) (b.r.y) >> 6;
+			a.mp = a.m.y * data->mapdata.x + a.m.x;
+			if (a.mp > 0 && a.mp < data->mapdata.size && data->mapdata.map[a.mp] == 1)
+			{
+				a.dof = 8;
+			}
+			else
+			{
+				b.r.x += b.o.x;
+				b.r.y += b.o.y;
+				a.dof += 1;
+			}
+		}
+		a.r++;
 	}
-	if (mlx_image_to_window(d->mlx, d->img, 0, 0) == -1)
-	{
-		mlx_close_window(d->mlx);
-		return (-1);
-	}
-	return (1);
+}
+
+void	program_loop(void *ptr)
+{
+	data_t			*d;
+
+	d = (data_t *)ptr;
+
+	print_dbg(d);
+	if (throttle_fps() == -1)
+		return ;
+	key_hooks(d);
+
+	// calculate_rays(d, &d->player);
+
+	render_cam(d);
+	render_mmap(d, &d->player);
 }
 
 int	main(void)
 {
 	data_t	d = {0};
 
-	d.x = 4;
-	d.y = 4;
+	if (set_mapdata(&d.mapdata) == -1)
+		return (EXIT_SUCCESS);
+	set_constants(&d.c);
+	set_player(&d.player, &d.cam, &d.mmap);
 	if (set_mlx(&d) == -1)
-		return (exit_err());
-	// mlx_loop_hook(d.mlx, ft_randomize, &d);
-	mlx_loop_hook(d.mlx, ft_hook, &d);
-	mlx_loop_hook(d.mlx, fps_loop, &d);
+		return (terminate_cub(&d, -1));
+	mlx_loop_hook(d.mlx, &program_loop, &d);
 	mlx_loop(d.mlx);
-	return (mlx_terminate(d.mlx), EXIT_SUCCESS);
+	return (terminate_cub(&d, 0));
 }
