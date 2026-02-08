@@ -6,24 +6,24 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 16:14:05 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/01/17 21:17:45 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/01/21 18:48:42 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 #include "MLX42/MLX42.h"
 
-void	player_mov(data_t *data, player_t *player)
+void	player_rotation(mlx_t *mlx, player_t *player)
 {
-	if (mlx_is_key_down(data->mlx, MLX_KEY_A))
+	if (mlx_is_key_down(mlx, MLX_KEY_LEFT))
 	{
 		player->angle -= 0.05;
 		if (player->angle < 0)
 			player->angle += 2 * PI;
-		player->dp.x = cos(player->angle);
-		player->dp.y = sin(player->angle);
+		player->dp.x = cosf(player->angle);
+		player->dp.y = sinf(player->angle);
 	}
-	if (mlx_is_key_down(data->mlx, MLX_KEY_D))
+	if (mlx_is_key_down(mlx, MLX_KEY_RIGHT))
 	{
 		player->angle += 0.05;
 		if (player->angle > 2 * PI)
@@ -31,15 +31,33 @@ void	player_mov(data_t *data, player_t *player)
 		player->dp.x = cos(player->angle);
 		player->dp.y = sin(player->angle);
 	}
-	if (mlx_is_key_down(data->mlx, MLX_KEY_W))
+}
+
+void	player_mov(mlx_t *mlx, player_t *player)
+{
+	if (mlx_is_key_down(mlx, MLX_KEY_A))
 	{
-		player->p.x -= player->dp.x;
-		player->p.y -= player->dp.y;
+		if (player->angle < PI / 2) {
+			// player;
+		}
+		if (player->angle > PI) {
+			// player
+		}
 	}
-	if (mlx_is_key_down(data->mlx, MLX_KEY_S))
+	if (mlx_is_key_down(mlx, MLX_KEY_D))
+	{
+		// player->p.x -= player->dp.x;
+		// player->p.y += player->dp.y;
+	}
+	if (mlx_is_key_down(mlx, MLX_KEY_S))
 	{
 		player->p.x += player->dp.x;
 		player->p.y += player->dp.y;
+	}
+	if (mlx_is_key_down(mlx, MLX_KEY_W))
+	{
+		player->p.x -= player->dp.x;
+		player->p.y -= player->dp.y;
 	}
 }
 
@@ -49,7 +67,8 @@ void	key_hooks(void *param)
 	
 	data = (data_t *)param;
 	
-	player_mov(data, &data->player);
+	player_mov(data->mlx, &data->player);
+	player_rotation(data->mlx, &data->player);
 	if (mlx_is_key_down(data->mlx, MLX_KEY_ENTER))
 	{
 		mlx_delete_image(data->mlx, data->debug);

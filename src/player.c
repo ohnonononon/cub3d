@@ -6,7 +6,7 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 17:43:39 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/01/18 23:59:12 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/01/21 18:49:00 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	set_player(player_t *d, cam_t *cam, mmap_t *mmap)
 	(*cam).player = d;
 	d->p.x = 75;
 	d->p.y = 75;
-	d->angle = 2;
+	d->angle = 0;
 	d->dp.x = cosf(d->angle);
 	d->dp.y = sinf(d->angle);
 }

@@ -6,17 +6,15 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 18:56:19 by nimatura          #+#    #+#             */
-/*   Updated: 2026/01/19 00:09:59 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/01/21 17:13:56 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
-#include "MLX42/MLX42.h"
-#include "MLX42/MLX42_Int.h"
-#include <math.h>
 
-// iterates on the ammount of tiles
-
+	// Apply DDA here
+	// 30 would be the world units. Could be 2 numbers, one as world unit and
+	// then the multiplier of distance.
 void	calculate_line_mmap(player_t *p, line_t *line, fpair_t start, double scale)
 {
 	line->start.x = (start.x + p->dp.x * p->rad_size) * scale;
@@ -92,30 +90,6 @@ void	render_cam(data_t *d)
 	}
 }
 
-#include <sys/time.h>
-
-static double	get_time_ms(void)
-{
-    struct timeval	tv;
-
-    gettimeofday(&tv, NULL);
-    return (tv.tv_sec * 1000.0 + tv.tv_usec / 1000.0);
-}
-
-int	throttle_fps()
-{
-	static double	last_frame = 0;
-	double			now;
-	double			dt;
-
-	now = get_time_ms();
-	dt = now - last_frame;
-	if (dt < 1000.0/60.0)
-		return (-1);
-	last_frame = now;
-	return (0);
-}
-
 void	calculate_rays(data_t *data, player_t *pl)
 {
 	irays_t a;
@@ -153,9 +127,7 @@ void	calculate_rays(data_t *data, player_t *pl)
 			a.m.y = (int) (b.r.y) >> 6;
 			a.mp = a.m.y * data->mapdata.x + a.m.x;
 			if (a.mp > 0 && a.mp < data->mapdata.size && data->mapdata.map[a.mp] == 1)
-			{
 				a.dof = 8;
-			}
 			else
 			{
 				b.r.x += b.o.x;

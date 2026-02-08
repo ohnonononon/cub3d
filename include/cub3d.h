@@ -6,7 +6,7 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 20:53:34 by nimatura          #+#    #+#             */
-/*   Updated: 2026/01/19 00:05:36 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/01/20 19:46:23 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,19 @@ library.
 #ifndef CUB3D_H
 # define CUB3D_H
 
+// TODO:
+/* what if rather using pi i could use a static value? */
 # ifndef PI
 #  define PI 3.14159265
 # endif
+
 #include "../lib/MLX42/include/MLX42/MLX42.h"
 #include "../lib/MLX42/include/MLX42/MLX42_Int.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <strings.h>
 #include <math.h>
-
 #include <string.h> //memset
 
 typedef struct	ipair_s
@@ -172,7 +173,6 @@ void	draw_line_mmap(mlx_image_t *img, fpair_t start, fpair_t delta, draw_t draw)
 
 /* PLAYER */
 void	set_player(player_t *d, cam_t *cam, mmap_t *mmap);
-// void	draw_sensor(mmap_t	*mmap, fpair_t start, double scale, line_t *d);
 void	draw_player(mmap_t *mmap, fpair_t c, int radius, double scale);
 
 /* MMAP UTILS */
@@ -203,5 +203,8 @@ void	debug_player_line(char *buf, size_t bufsize,
 					   float player_x, float player_y, float player_angle,
 					   float line_end_x, float line_end_y);
 void	print_dbg(data_t *d);
+
+/* throttle fps */
+int	throttle_fps();
 
 #endif
