@@ -1,0 +1,100 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   buttons_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/17 16:14:05 by ohnonon           #+#    #+#             */
+/*   Updated: 2026/02/09 19:35:48 by ohnonon          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../include/cub3d.h"
+
+static void	player_rotate(t_data *data, t_player *player)
+{
+	if (mlx_is_key_down(data->mlx, MLX_KEY_LEFT))
+	{
+		player->angle -= 0.05;
+		if (player->angle < 0)
+			player->angle += 2 * PI;
+		player->dp.x = cos(player->angle);
+		player->dp.y = sin(player->angle);
+	}
+	if (mlx_is_key_down(data->mlx, MLX_KEY_RIGHT))
+	{
+		player->angle += 0.05;
+		if (player->angle > 2 * PI)
+			player->angle -= 2 * PI;
+		player->dp.x = cos(player->angle);
+		player->dp.y = sin(player->angle);
+	}
+}
+
+static void	strafe_mov(t_data *data, t_player *player)
+{
+	t_fpair	side;
+
+	side.x = -player->dp.y;
+	side.y = player->dp.x;
+	if (mlx_is_key_down(data->mlx, MLX_KEY_A))
+	{
+		if (retrieve_tile(data->c, &data->config.map, player->p, side))
+		{
+			player->p.x -= side.x;
+			player->p.y -= side.y;
+		}
+	}
+	if (mlx_is_key_down(data->mlx, MLX_KEY_D))
+	{
+		if (retrieve_tile(data->c, &data->config.map, player->p, side))
+		{
+			player->p.x += side.x;
+			player->p.y += side.y;
+		}
+	}
+}
+
+static void	frontal_mov(t_data *data, t_player *player)
+{
+	if (mlx_is_key_down(data->mlx, MLX_KEY_W))
+	{
+		if (retrieve_tile(data->c, &data->config.map, player->p, player->dp))
+		{
+			player->p.x += player->dp.x;
+			player->p.y += player->dp.y;
+		}
+	}
+	if (mlx_is_key_down(data->mlx, MLX_KEY_S))
+	{
+		if (retrieve_tile(data->c, &data->config.map, player->p, player->dp))
+		{
+			player->p.x -= player->dp.x;
+			player->p.y -= player->dp.y;
+		}
+	}
+}
+
+void	debug_display(t_data *d)
+{
+	if (mlx_is_key_down(d->mlx, MLX_KEY_1))
+		d->d_flag = 0;
+	if (mlx_is_key_down(d->mlx, MLX_KEY_2))
+		d->d_flag = 1;
+	if (mlx_is_key_down(d->mlx, MLX_KEY_3))
+		d->d_flag = 2;
+}
+
+void	key_hooks(void *param)
+{
+	t_data	*data;
+	
+	data = (t_data *)param;
+	frontal_mov(data, &data->player);
+	strafe_mov(data, &data->player);
+	player_rotate(data, &data->player);
+	debug_display(data);
+	if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
+		mlx_close_window(data->mlx);
+}

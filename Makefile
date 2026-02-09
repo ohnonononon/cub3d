@@ -6,12 +6,12 @@
 #    By: nimatura <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/07 20:35:18 by nimatura          #+#    #+#              #
-#    Updated: 2025/12/23 11:11:56 by ohnonon          ###   ########.fr        #
+#    Updated: 2026/02/08 19:07:50 by ohnonon          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	:= Game
-CFLAGS	:= -Wextra -Wall -Werror -Wunreachable-code -Ofast
+CFLAGS	:= -g -Wextra -Wall -Werror -Wunreachable-code -Ofast
 LIBMLX	:= ./lib/MLX42
 
 HEADERS	:= -I ./include -I $(LIBMLX)/include

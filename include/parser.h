@@ -6,7 +6,7 @@
 /*   By: olreshet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 19:50:00 by olreshet          #+#    #+#             */
-/*   Updated: 2026/01/19 17:45:47 by olreshet         ###   ########.fr       */
+/*   Updated: 2026/02/08 21:56:48 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_map
 	char **grid;
 	int width;
 	int height;
+	int	size;
 	int start_x;
 	int start_y;
 	char start_dir;
@@ -53,6 +54,7 @@ typedef struct s_config
 	t_textures textures;
 	t_map map;
 } t_config;
+
 
 /* Parser functions */
 int parse_file(const char *filename, t_config *config);
@@ -69,5 +71,8 @@ char *ft_strtrim(char *s);
 int ft_isspace(int c);
 char **ft_split(char const *s, char c);
 int ft_atoi(const char *str);
+
+/* parser gate */
+int	load_map(int argc, char **argv, t_config *config);
 
 #endif

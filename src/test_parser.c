@@ -6,7 +6,7 @@
 /*   By: olreshet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 19:45:00 by olreshet          #+#    #+#             */
-/*   Updated: 2026/01/19 17:45:47 by olreshet         ###   ########.fr       */
+/*   Updated: 2026/02/08 23:14:14 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,28 +41,25 @@ void print_config(t_config *config)
 	printf("\n");
 }
 
-int main(int argc, char **argv)
+int	load_map(int argc, char **argv, t_config *config)
 {
-	t_config config;
-
 	if (argc != 2)
 	{
 		printf("Usage: %s <map.cub>\n", argv[0]);
-		return (EXIT_FAILURE);
+		return (-1);
 	}
 
 	printf("Testing parser with: %s\n", argv[1]);
 	printf("=====================================\n");
 
-	if (!parse_file(argv[1], &config))
+	if (!parse_file(argv[1], config))
 	{
 		printf("\n❌ PARSER FAILED\n");
-		return (EXIT_FAILURE);
+		return (-1);
 	}
 
 	printf("\n✅ PARSER SUCCESS\n");
-	print_config(&config);
+	print_config(config);
 
-	free_config(&config);
 	return (EXIT_SUCCESS);
 }
