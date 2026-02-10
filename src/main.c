@@ -6,7 +6,7 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 18:56:19 by nimatura          #+#    #+#             */
-/*   Updated: 2026/02/10 21:10:01 by nimatura         ###   ########.fr       */
+/*   Updated: 2026/02/10 21:39:14 by nimatura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,19 @@
 void	cam_bg(t_data *d)
 {
 	t_ipair	i;
+	t_color	ref;
 	uint32_t color;
 
 	i.y = 0;
-	color = color_px(d->config.textures.ceiling.r,
-				  d->config.textures.ceiling.g,
-				  d->config.textures.ceiling.b, 255);
+	ref = d->config.textures.ceiling;
+	color = color_px(ref.r, ref.g, ref.b, 120);
 	while (i.y < (int)d->cam.img->height)
 	{
 		if (i.y == (int)d->cam.img->height / 2)
-			color = color_px(d->config.textures.floor.r,
-					d->config.textures.floor.g,
-					d->config.textures.floor.b, 255);
+		{
+			ref = d->config.textures.floor;
+			color = color_px(ref.r, ref.g, ref.b, 255);
+		}
 		i.x = 0;
 		while (i.x < (int)d->cam.img->width)
 		{
@@ -75,10 +76,11 @@ uint32_t	get_tex_pixel(mlx_texture_t *tex, int x, int y)
 
 void	set_tex(t_tex_tools *t, t_raydata *rd, t_player *pl, int i)
 {
+	t->wall_x = 0;
 	if (rd[i].side == 0)
-		t->wall_x = pl->p.y + rd[i].len * sin(rd[i].angle);
-	else
-		t->wall_x = pl->p.x + rd[i].len * cos(rd[i].angle);
+		t->wall_x = pl->p.y + rd[i].len * sinf(rd[i].angle);
+	// else
+	// 	t->wall_x = pl->p.x + rd[i].len * cosf(rd[i].angle);
 	t->wall_x -= floorf(t->wall_x);
 	t->side = rd[i].side;
 	if (t->side == 0)
@@ -104,27 +106,35 @@ void	draw_vline(t_assets *ass, t_cam *d, t_vline *v, t_tex_tools *t)
 	float			step;
 	int				y;
 
+	(void)v;
+	(void)d;
+	(void)tex_pos;
+	(void)step;
+	(void)y;
+
 	tex = ass->tex[t->orient];
+	printf("ass->tex %p\n", ass->tex[t->orient]);
 	step = tex->height / v->wall_h;
 	tex_pos = 0.0f;
-	t->tex_x = (int)(t->wall_x * tex->width);
-	if (t->tex_x < 0)
-		t->tex_x = 0;
-	if (v->start_y < 0)
-		v->start_y = 0;
-	if (v->end_y >= (int)d->img->height)
-		v->end_y = d->img->height - 1;
-	y = v->start_y;
-	while (y <= v->end_y)
-	{
-		t->tex_y = (int)tex_pos;
-		if (t->tex_y >= (int)tex->height)
-			t->tex_y = tex->height - 1;
-		t->color = get_tex_pixel(tex, t->tex_x, t->tex_y);
-		mlx_put_pixel(d->img, v->i, y, t->color);
-		tex_pos += step;
-		y++;
-	}
+	// t->tex_x = ((int)t->wall_x * tex->width);
+// 	if (t->tex_x < 0)
+// 		t->tex_x = 0;
+// 	if (v->start_y < 0)
+// 		v->start_y = 0;
+// 	if (v->end_y >= (int)d->img->height)
+// 		v->end_y = d->img->height - 1;
+// 	y = v->start_y;
+// 	while (y <= v->end_y)
+// 	{
+// 		t->tex_y = (int)tex_pos;
+// 		if (t->tex_y >= (int)tex->height)
+// 			t->tex_y = tex->height - 1;
+// 		// t->color = get_tex_pixel(tex, t->tex_x, t->tex_y);
+// 		// mlx_put_pixel(d->img, v->i, y, t->color);
+// 		mlx_put_pixel(d->img, 0, 0, color_px(255, 120, 70, 255));
+// 		tex_pos += step;
+// 		y++;
+// 	}
 }
 
 float	normalize_angle(float angle, float start, int i, float angle_i)
@@ -159,7 +169,7 @@ void	render_cam(t_data *d)
 		set_cam_ray(d, &rays[v.i]);
 		set_vline(d, &v, rays[v.i].len);
 		set_tex(&d->t, rays, &d->player, v.i);
-		// draw_vline(&d->ass, &d->cam, &v, &d->t);
+		draw_vline(&d->ass, &d->cam, &v, &d->t);
 		v.i++;
 	}
 }

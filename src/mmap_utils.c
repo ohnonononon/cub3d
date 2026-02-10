@@ -6,13 +6,12 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 16:31:23 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/02/09 01:30:33 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/10 21:25:31 by nimatura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-// static int	check_px_limit_mmap(int x, int y, int limit);
 static int		is_padding(t_paint_pixel i);
 int32_t			set_color_mmap(char type);
 
