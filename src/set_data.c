@@ -6,7 +6,7 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 22:20:07 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/02/09 18:25:09 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/10 16:00:31 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ void	set_player(t_map *map, t_player *d, t_const c, t_mmap *mmap)
 	mmap->player = d;
 	d->p.x = map->start_x * c.tile_size + p;
 	d->p.y = map->start_y * c.tile_size + p;
-	if (map->start_dir == 'S')
-		d->angle = 1.57;
-	if (map->start_dir == 'E')
+	if (map->start_dir == 'N')
+		d->angle = 1.57 * 3;
+	else if (map->start_dir == 'E')
 		d->angle = 0;
-	if (map->start_dir == 'W')
+	else if (map->start_dir == 'W')
 		d->angle = PI;
 	else
-		d->angle = 1.57 * 3;
+		d->angle = 1.57;
 	d->dp.x = cosf(d->angle);
 	d->dp.y = sinf(d->angle);
 }
@@ -48,7 +48,9 @@ void	set_constants(t_const *c)
 	c->height = c->tile_size * 9;
 	c->width = c->tile_size * 16;
 	c->eps = 0.0001f;
-	c->fov = 157;
+	c->fov = PI / 3.0f;
+	c->proj_plane_dist = fabs(((float)c->width / 2.0) /
+						   tan(c->fov / 2.0));
 }
 
 void	upd_mmap_data(t_mmap *mmap, t_const c, t_player *pl)
@@ -56,4 +58,18 @@ void	upd_mmap_data(t_mmap *mmap, t_const c, t_player *pl)
 	mmap->size = c.mmap_img_side + 1;
 	mmap->in_pos.x = pl->p.x * c.mmap_scale;
 	mmap->in_pos.y = pl->p.y * c.mmap_scale;
+}
+
+int	set_data(t_data *d)
+{
+	int		ac = 2;
+	char	*av[3] = {"bin", "./maps/simple.cub" , NULL};
+
+	if (load_map(ac, av, &d->config) == -1)
+		return (-1);
+	set_constants(&d->c);
+	set_player(&d->config.map, &d->player, d->c, &d->mmap);
+	if (set_mlx(d) == -1)
+		return (terminate_cub(d, -1), -1);
+	return (0);
 }

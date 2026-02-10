@@ -6,11 +6,12 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 18:00:16 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/02/08 22:12:37 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/10 17:22:33 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
+#include "MLX42/MLX42.h"
 #include <stdlib.h>
 
 int	exit_err(void);
@@ -24,10 +25,28 @@ int	exit_err(void)
 	return (EXIT_FAILURE);
 }
 
+void	terminate_assets(mlx_t *mlx, t_assets *ass)
+{
+	int	i;
+
+	i = 0;
+	while (ass->img[i] != NULL)
+	{
+		mlx_delete_image(mlx, ass->img[i]);
+		ass->img[i] = NULL;
+	}
+	while (ass->xpm[i] != NULL)
+	{
+		mlx_delete_xpm42(ass->xpm[i]);
+		ass->xpm[i] = NULL;
+	}
+}
+
 /* img->window->mlx */
 /* 2 elements: mmap and camera */
 int	terminate_cub_ui(t_data *d, t_mmap *mmap, int err)
 {
+	terminate_assets(d->mlx, &d->ass);
 	if (NULL != mmap->img)
 	{
 		mlx_delete_image(d->mlx, mmap->img);

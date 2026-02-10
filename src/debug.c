@@ -6,7 +6,7 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 18:45:40 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/02/09 18:08:52 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/10 15:30:04 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	print_dbg(t_data *d)
 	char	b1[1024];
 	t_ipair	i;
 
-	i.y = (d->c.height / 6) ;
+	i.y = (d->c.height / 10) ;
 	i.x = (d->c.width / 48) * 1;
 
 	if (d->debug != NULL)
@@ -81,13 +81,13 @@ void	print_dbg(t_data *d)
 	else if (d->d_flag == 1)
 	{
 		debug_ray_line_1(b1, 1024, d->player.p.x, d->player.p.y, d->cam.sun.ray.x, d->cam.sun.ray.y, d->cam.sun.tile.x, d->cam.sun.tile.y, d->cam.sun.step.x, d->cam.sun.step.y);
-		d->debug = mlx_put_string(d->mlx, b1, i.x, i.y * 2);
+		d->debug = mlx_put_string(d->mlx, b1, i.x, i.y);
 		mlx_image_to_window(d->mlx, d->debug, 0, 0);
 	}
 	else if (d->d_flag == 2)
 	{
 		debug_ray_line_2(b1, 1024, d->cam.sun.dist.x, d->cam.sun.dist.y, d->cam.sun.delta.x, d->cam.sun.delta.y, d->cam.sun.ray_len);
-		d->debug = mlx_put_string(d->mlx, b1, i.x, i.y * 4);
+		d->debug = mlx_put_string(d->mlx, b1, i.x, i.y);
 		mlx_image_to_window(d->mlx, d->debug, 0, 0);
 	}
 

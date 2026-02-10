@@ -6,7 +6,7 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 20:53:34 by nimatura          #+#    #+#             */
-/*   Updated: 2026/02/09 19:10:22 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/10 18:04:13 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,14 @@ library.
 #include <strings.h>
 #include <math.h>
 #include <string.h> //memset
+
+typedef enum e_or
+{
+    EAST,
+    SOUTH,
+    WEST,
+    NORTH
+}   e_or;
 
 typedef struct	s_ipair
 {
@@ -114,6 +122,17 @@ typedef struct	s_mmap
 	t_line		line;
 }				t_mmap;
 
+typedef struct s_tex_tools
+{
+	float		wall_x;
+	float		angle;
+	uint32_t	color;
+	int			tex_x;
+	int			tex_y;
+	int			side;
+	e_or		orient;
+}		t_tex_tools;
+
 /* HEIGHT and WIDTH are window related */
 typedef struct	s_const
 {
@@ -122,12 +141,13 @@ typedef struct	s_const
 	int	mmap_img_side;
 	int	mmap_tile_line_count;
 	double	mmap_scale;
+	float	proj_plane_dist;
 	float	eps;
+	float	fov;
 	int	pl_radius;
 	int	tile_size;
 	int	height;
 	int	width;
-	int	fov;
 }				t_const;
 
 typedef struct	s_ray
@@ -138,7 +158,25 @@ typedef struct	s_ray
 	t_ipair	step;
 	t_fpair	dist;
 	float	ray_len;
+	int		side;
+	int		hit;
 }			t_ray;
+
+typedef struct	s_raydata
+{
+	t_ray	ray;
+	float	angle;
+	float	len;
+	int		side;
+}			t_raydata;
+
+typedef struct	s_vline
+{
+	float	wall_h;
+	int		start_y;
+	int		end_y;
+	int		i;
+}			t_vline;
 
 typedef struct	s_camera
 {
@@ -147,8 +185,16 @@ typedef struct	s_camera
 	t_ray		sun;
 }				t_cam;
 
+typedef struct	s_assets
+{
+	mlx_image_t		*img[4];
+	xpm_t			*xpm[4];
+	float			wall_x;
+}				t_assets;
+
 typedef struct	s_data
 {
+	t_tex_tools	t;
 	mlx_t		*mlx;
 	t_config	config;
 	t_const		c;
@@ -156,11 +202,13 @@ typedef struct	s_data
 	t_mmap		mmap;
 	t_player	player;
 	mlx_image_t	*debug;
+	t_assets	ass;
 	char		d_flag;
 }				t_data;
 
 /* MAIN */
 void	program_loop(void *ptr);
+int		set_data(t_data *d);
 
 /* SETUP */
 void	set_constants(t_const *c);

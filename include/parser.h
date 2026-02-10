@@ -6,7 +6,7 @@
 /*   By: olreshet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 19:50:00 by olreshet          #+#    #+#             */
-/*   Updated: 2026/02/08 21:56:48 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/10 16:57:03 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,22 +57,22 @@ typedef struct s_config
 
 
 /* Parser functions */
-int parse_file(const char *filename, t_config *config);
-int validate_file_extension(const char *filename);
-int validate_map(t_map *map);
-int parse_textures(char *line, t_textures *textures);
-void free_config(t_config *config);
+int		parse_file(const char *filename, t_config *config);
+int		validate_file_extension(const char *filename);
+int		validate_map(t_map *map);
+int		parse_textures(char *line, t_textures *textures);
+void	free_config(t_config *config);
 
 /* Helper functions */
-char *ft_strdup(const char *s);
-size_t ft_strlen(const char *s);
-int ft_strncmp(const char *s1, const char *s2, size_t n);
-char *ft_strtrim(char *s);
-int ft_isspace(int c);
-char **ft_split(char const *s, char c);
-int ft_atoi(const char *str);
+char	*ft_strdup(const char *s);
+size_t	ft_strlen(const char *s);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+char	*ft_strtrim(char *s);
+int		ft_isspace(int c);
+char	**ft_split(char const *s, char c);
+int		ft_atoi(const char *str);
 
 /* parser gate */
-int	load_map(int argc, char **argv, t_config *config);
+int		load_map(int argc, char **argv, t_config *config);
 
 #endif

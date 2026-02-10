@@ -6,7 +6,7 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 19:19:15 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/02/09 19:37:49 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/10 17:47:04 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,33 +23,33 @@ void	set_ray_move(t_ray *d, t_player *pl, t_const c)
 	if (d->ray.x < 0 )
 	{
 		d->step.x = -1;
-		d->dist.x = (pl->p.x - d->tile.x * c.tile_size)\
-			* d->delta.x / c.tile_size;
+		d->dist.x = (pl->p.x - d->tile.x * c.tile_size) / c.tile_size \
+			* d->delta.x;
 	}
 	else
 	{
 		d->step.x = 1;
-		d->dist.x = ((d->tile.x + 1) * c.tile_size - pl->p.x)\
-			* d->delta.x / c.tile_size;
+		d->dist.x = ((d->tile.x + 1) * c.tile_size - pl->p.x) / c.tile_size \
+			* d->delta.x;
 	}
 	if (d->ray.y < 0)
 	{
 		d->step.y = -1;
 		d->dist.y = (pl->p.y - d->tile.y * c.tile_size)\
-			* d->delta.y / c.tile_size;
+			/ c.tile_size * d->delta.y;
 	}
 	else
 	{
 		d->step.y = 1;
 		d->dist.y = ((d->tile.y + 1) * c.tile_size - pl->p.y)\
-			* d->delta.y / c.tile_size;
+			/ c.tile_size * d->delta.y;
 	}
 }
 
 void	set_ray(t_ray *d, t_player *pl, t_const c)
 {
-	d->ray.x = pl->dp.x;
-	d->ray.y = pl->dp.y;
+	d->ray.x = cosf(pl->angle);
+	d->ray.y = sinf(pl->angle);
 	d->tile.x = (int)pl->p.x / c.tile_size;
 	d->tile.y = (int)pl->p.y / c.tile_size;
 	d->delta.x = fabsf(c.tile_size / d->ray.x);
@@ -57,6 +57,7 @@ void	set_ray(t_ray *d, t_player *pl, t_const c)
 	set_ray_move(d, pl, c);
 }
 
+// 0, vertical
 void	set_ray_len(t_ray *d, int wall)
 {
 	if (wall == 1)
@@ -67,29 +68,26 @@ void	set_ray_len(t_ray *d, int wall)
 
 void	ray_loop(t_ray *d, t_map *map)
 {
-	int	side;
-	int	hit;
-
-	hit = 0;
-	side = 0;
-	while (!hit)
+	d->hit = 0;
+	d->side = 0;
+	while (!d->hit)
 	{
 		if (d->dist.x < d->dist.y)
 		{
 			d->dist.x += d->delta.x;
 			d->tile.x += d->step.x;
-			side = 0;
+			d->side = 0;
 		}
 		else
 		{
 			d->dist.y += d->delta.y;
 			d->tile.y += d->step.y;
-			side = 1;
+			d->side = 1;
 		}
 		if (map->grid[d->tile.y][d->tile.x] == '1')
-			hit = 1;
+			d->hit = 1;
 	}
-	set_ray_len(d, side);
+	set_ray_len(d, d->side);
 }
 
 void	calculate_main_ray(t_data *data)
