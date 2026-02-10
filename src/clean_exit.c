@@ -6,7 +6,7 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 18:00:16 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/02/10 17:22:33 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/10 20:57:54 by nimatura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ void	terminate_assets(mlx_t *mlx, t_assets *ass)
 		mlx_delete_image(mlx, ass->img[i]);
 		ass->img[i] = NULL;
 	}
-	while (ass->xpm[i] != NULL)
+	while (ass->tex[i] != NULL)
 	{
-		mlx_delete_xpm42(ass->xpm[i]);
-		ass->xpm[i] = NULL;
+		mlx_delete_texture(ass->tex[i]);
+		ass->tex[i] = NULL;
 	}
 }
 

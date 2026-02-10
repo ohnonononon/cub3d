@@ -6,7 +6,7 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 20:53:34 by nimatura          #+#    #+#             */
-/*   Updated: 2026/02/10 18:04:13 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/10 20:54:53 by nimatura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,7 @@ typedef struct	s_camera
 typedef struct	s_assets
 {
 	mlx_image_t		*img[4];
-	xpm_t			*xpm[4];
+	mlx_texture_t	*tex[4];
 	float			wall_x;
 }				t_assets;
 

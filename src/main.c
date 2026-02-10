@@ -6,7 +6,7 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 18:56:19 by nimatura          #+#    #+#             */
-/*   Updated: 2026/02/10 18:10:41 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/10 21:07:29 by nimatura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void	draw_vline(t_assets *ass, t_cam *d, t_vline *v, t_tex_tools *t)
 	float			step;
 	int				y;
 
-	tex = &ass->xpm[t->orient]->texture;
+	tex = ass->tex[t->orient];
 	step = tex->height / v->wall_h;
 	tex_pos = 0.0f;
 	t->tex_x = (int)(t->wall_x * tex->width);
@@ -127,6 +127,17 @@ void	draw_vline(t_assets *ass, t_cam *d, t_vline *v, t_tex_tools *t)
 	}
 }
 
+float	normalize_angle(float angle, float start, int i, float angle_i)
+{
+	angle = start + (i * angle_i);
+	while (angle < 0)
+		angle += 2 * PI;
+	while (angle > 2 * PI)
+		angle -= 2 * PI;
+	return (angle);
+}
+
+// VLA
 void	render_cam(t_data *d)
 {
 	t_raydata	rays[d->c.width];
@@ -144,15 +155,11 @@ void	render_cam(t_data *d)
 	v.i = 0;
 	while (v.i < d->c.width)
 	{
-		rays[v.i].angle = start_angle + (v.i * angle_i);
-		// while (rays[v.i].angle < 0)
-		// 	rays[v.i].angle += 2 * PI;
-		// while (rays[v.i].angle > 2 * PI)
-		// 	rays[v.i].angle -= 2 * PI;
+		rays[v.i].angle = normalize_angle(rays[v.i].angle, start_angle, v.i,  angle_i);
 		set_cam_ray(d, &rays[v.i]);
-		// set_vline(d, &v, rays[v.i].len);
-		// set_tex(&d->t, rays, &d->player, v.i);
-		// draw_vline(&d->ass, &d->cam, &v, &d->t);
+		set_vline(d, &v, rays[v.i].len);
+		set_tex(&d->t, rays, &d->player, v.i);
+		draw_vline(&d->ass, &d->cam, &v, &d->t);
 		v.i++;
 	}
 }
@@ -167,8 +174,8 @@ void	program_loop(void *ptr)
 	if (throttle_fps() == -1)
 		return ;
 	key_hooks(d);
-	// calculate_main_ray(d);
-	// render_cam(d);
+	calculate_main_ray(d);
+	render_cam(d);
 	// upd_mmap_data(&d->mmap, d->c, &d->player);
 	// render_mmap(&d->cam, &d->mmap, &d->c, &d->config.map);
 }
@@ -178,7 +185,6 @@ int	main(void)
 {
 	t_data	d = {0};
 
-	d.d_flag = 0;
 	if (set_data(&d) == -1)
 		return (EXIT_FAILURE);
 	mlx_loop_hook(d.mlx, &program_loop, &d);
