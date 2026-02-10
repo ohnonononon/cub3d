@@ -6,15 +6,15 @@
 /*   By: olreshet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 00:00:00 by olreshet          #+#    #+#             */
-/*   Updated: 2026/02/08 19:04:50 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/10 20:45:44 by olreshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parser.h"
 
-char *read_line(int fd);
+char	*read_line(int fd);
 
-int store_first_map_line(t_config *config, char *trimmed)
+int	store_first_map_line(t_config *config, char *trimmed)
 {
 	config->map.grid = malloc(sizeof(char *) * 2);
 	if (!config->map.grid)
@@ -24,9 +24,9 @@ int store_first_map_line(t_config *config, char *trimmed)
 	return (1);
 }
 
-int parse_texture_line(char *line, char *trimmed, t_config *config)
+int	parse_texture_line(char *line, char *trimmed, t_config *config)
 {
-	int result;
+	int	result;
 
 	result = parse_textures(trimmed, &config->textures);
 	free(trimmed);
@@ -35,9 +35,9 @@ int parse_texture_line(char *line, char *trimmed, t_config *config)
 	return (result);
 }
 
-static int count_existing_lines(t_config *config)
+static int	count_existing_lines(t_config *config)
 {
-	int count;
+	int	count;
 
 	count = 0;
 	if (config->map.grid)
@@ -48,10 +48,10 @@ static int count_existing_lines(t_config *config)
 	return (count);
 }
 
-static int add_line_to_map(t_config *config, char *trimmed, int count)
+static int	add_line_to_map(t_config *config, char *trimmed, int count)
 {
-	char **temp;
-	int i;
+	char	**temp;
+	int		i;
 
 	temp = malloc(sizeof(char *) * (count + 2));
 	if (!temp)
@@ -70,11 +70,11 @@ static int add_line_to_map(t_config *config, char *trimmed, int count)
 	return (1);
 }
 
-int store_map_lines(int fd, t_config *config)
+int	store_map_lines(int fd, t_config *config)
 {
-	char *line;
-	char *trimmed;
-	int count;
+	char	*line;
+	char	*trimmed;
+	int		count;
 
 	count = count_existing_lines(config);
 	line = read_line(fd);

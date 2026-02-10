@@ -6,19 +6,19 @@
 /*   By: olreshet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 19:30:00 by olreshet          #+#    #+#             */
-/*   Updated: 2026/02/08 19:04:34 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/10 20:58:03 by olreshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parser.h"
 
-int parse_color(char *color_str, t_color *color);
+int	parse_color(char *color_str, t_color *color);
 
-static int parse_texture_path(char *line, char **texture)
+static int	parse_texture_path(char *line, char **texture)
 {
-	char *path;
-	int i;
-	int j;
+	char	*path;
+	int		i;
+	int		j;
 
 	i = 0;
 	while (line[i] && ft_isspace(line[i]))
@@ -41,7 +41,7 @@ static int parse_texture_path(char *line, char **texture)
 	return (1);
 }
 
-static int parse_texture_identifier(char *line, t_textures *tex)
+static int	parse_texture_identifier(char *line, t_textures *tex)
 {
 	if (ft_strncmp(line, "NO ", 3) == 0)
 	{
@@ -70,7 +70,7 @@ static int parse_texture_identifier(char *line, t_textures *tex)
 	return (-1);
 }
 
-static int parse_color_identifier(char *line, t_textures *tex)
+static int	parse_color_identifier(char *line, t_textures *tex)
 {
 	if (ft_strncmp(line, "F ", 2) == 0)
 	{
@@ -87,9 +87,9 @@ static int parse_color_identifier(char *line, t_textures *tex)
 	return (-1);
 }
 
-int parse_textures(char *line, t_textures *textures)
+int	parse_textures(char *line, t_textures *textures)
 {
-	int result;
+	int	result;
 
 	result = parse_texture_identifier(line, textures);
 	if (result != -1)

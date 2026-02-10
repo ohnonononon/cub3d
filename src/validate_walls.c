@@ -6,13 +6,13 @@
 /*   By: olreshet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 00:00:00 by olreshet          #+#    #+#             */
-/*   Updated: 2026/02/08 19:05:05 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/10 21:15:55 by olreshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parser.h"
 
-static int check_cell_closed(t_map *map, int y, int x)
+static int	check_cell_closed(t_map *map, int y, int x)
 {
 	if (y < 0 || y >= map->height)
 		return (0);
@@ -25,26 +25,29 @@ static int check_cell_closed(t_map *map, int y, int x)
 	return (1);
 }
 
-static int is_walkable(char c)
+static int	is_walkable(char c)
 {
 	return (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W');
 }
 
-static int check_cell_walls(t_map *map, int i, int j)
+static int	check_cell_walls(t_map *map, int i, int j)
 {
-	if (!check_cell_closed(map, i - 1, j) || !check_cell_closed(map, i + 1, j) || !check_cell_closed(map, i, j - 1) || !check_cell_closed(map, i, j + 1))
+	if (!check_cell_closed(map, i - 1, j) \
+|| !check_cell_closed(map, i + 1, j) \
+|| !check_cell_closed(map, i, j - 1) \
+|| !check_cell_closed(map, i, j + 1))
 	{
 		printf("Error\nMap is not closed by walls at (%d, %d)\n",
-			   j, i);
+			j, i);
 		return (0);
 	}
 	return (1);
 }
 
-int validate_closed_walls(t_map *map)
+int	validate_closed_walls(t_map *map)
 {
-	int i;
-	int j;
+	int		i;
+	int		j;
 
 	i = 0;
 	while (i < map->height)

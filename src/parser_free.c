@@ -6,13 +6,13 @@
 /*   By: olreshet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 19:30:00 by olreshet          #+#    #+#             */
-/*   Updated: 2026/02/08 19:05:22 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/10 20:44:57 by olreshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parser.h"
 
-static void free_textures(t_textures *textures)
+static void	free_textures(t_textures *textures)
 {
 	if (textures->north)
 		free(textures->north);
@@ -24,12 +24,12 @@ static void free_textures(t_textures *textures)
 		free(textures->east);
 }
 
-static void free_map_grid(char **grid)
+static void	free_map_grid(char **grid)
 {
-	int i;
+	int	i;
 
 	if (!grid)
-		return;
+		return ;
 	i = 0;
 	while (grid[i])
 	{
@@ -39,7 +39,7 @@ static void free_map_grid(char **grid)
 	free(grid);
 }
 
-void free_config(t_config *config)
+void	free_config(t_config *config)
 {
 	free_textures(&config->textures);
 	free_map_grid(config->map.grid);

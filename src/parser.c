@@ -6,21 +6,21 @@
 /*   By: olreshet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 19:30:00 by olreshet          #+#    #+#             */
-/*   Updated: 2026/02/08 19:05:34 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/10 20:39:55 by olreshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parser.h"
 
-void init_config(t_config *config);
-char *read_line(int fd);
-int is_map_line(const char *line);
-int store_map_lines(int fd, t_config *config);
-int store_first_map_line(t_config *config, char *trimmed);
-int parse_texture_line(char *line, char *trimmed, t_config *config);
-int all_identifiers_present(t_config *config);
+void	init_config(t_config *config);
+char	*read_line(int fd);
+int		is_map_line(const char *line);
+int		store_map_lines(int fd, t_config *config);
+int		store_first_map_line(t_config *config, char *trimmed);
+int		parse_texture_line(char *line, char *trimmed, t_config *config);
+int		all_identifiers_present(t_config *config);
 
-static int handle_map_start(t_config *config, char *trimmed, char *line)
+static int	handle_map_start(t_config *config, char *trimmed, char *line)
 {
 	if (!all_identifiers_present(config))
 	{
@@ -40,10 +40,10 @@ static int handle_map_start(t_config *config, char *trimmed, char *line)
 	return (1);
 }
 
-static int parse_config_lines(int fd, t_config *config)
+static int	parse_config_lines(int fd, t_config *config)
 {
-	char *line;
-	char *trimmed;
+	char	*line;
+	char	*trimmed;
 
 	line = read_line(fd);
 	while (line != NULL)
@@ -55,7 +55,7 @@ static int parse_config_lines(int fd, t_config *config)
 			{
 				if (!handle_map_start(config, trimmed, line))
 					return (0);
-				break;
+				break ;
 			}
 			if (!parse_texture_line(line, trimmed, config))
 				return (0);
@@ -68,9 +68,9 @@ static int parse_config_lines(int fd, t_config *config)
 	return (1);
 }
 
-static int open_and_validate_file(const char *filename)
+static int	open_and_validate_file(const char *filename)
 {
-	int fd;
+	int	fd;
 
 	if (!validate_file_extension(filename))
 	{
@@ -83,7 +83,7 @@ static int open_and_validate_file(const char *filename)
 	return (fd);
 }
 
-static int parse_file_content(int fd, t_config *config)
+static int	parse_file_content(int fd, t_config *config)
 {
 	if (!parse_config_lines(fd, config))
 		return (0);
@@ -92,9 +92,9 @@ static int parse_file_content(int fd, t_config *config)
 	return (1);
 }
 
-int parse_file(const char *filename, t_config *config)
+int	parse_file(const char *filename, t_config *config)
 {
-	int fd;
+	int	fd;
 
 	fd = open_and_validate_file(filename);
 	if (fd < 0)

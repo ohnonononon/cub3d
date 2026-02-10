@@ -6,7 +6,7 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 17:43:39 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/02/09 00:21:01 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/10 21:24:51 by olreshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ static void	render_player(t_mmap *mmap, t_fpair p, t_fpair c, double radius)
 	if ((p.x - c.x) * (p.x - c.x) + (p.y - c.y) * (p.y - c.y) <= r)
 	{
 		if (p.x >= 0 && p.x < mmap->img->width && p.y >= 0 && \
-			p.y < mmap->img->height)
-			mlx_put_pixel(mmap->img, p.x, p.y, color);
+		p.y < mmap->img->height)
+		mlx_put_pixel(mmap->img, p.x, p.y, color);
 	}
 }
 
@@ -34,9 +34,8 @@ void	draw_player(t_mmap *mmap, t_fpair c, int radius)
 
 	c.x = mmap->in_pos.x;
 	c.y = mmap->in_pos.y;
-	// Here for colission
 	p.y = c.y - radius;
-	while (p.y <= c.y + radius) // iterates a square where c.y is middle point
+	while (p.y <= c.y + radius) 
 	{
 		p.x = c.x - radius;
 		while (p.x <= c.x + radius)

@@ -6,14 +6,14 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 16:33:12 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/02/09 19:37:42 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/10 21:28:20 by olreshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-int32_t color_px(int32_t r, int32_t g, int32_t b, int32_t a)
+int32_t	color_px(int32_t r, int32_t g, int32_t b, int32_t a)
 {
-    return (r << 24 | g << 16 | b << 8 | a);
+	return (r << 24 | g << 16 | b << 8 | a);
 }
 

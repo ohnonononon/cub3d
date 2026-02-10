@@ -6,15 +6,15 @@
 /*   By: olreshet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 00:00:00 by olreshet          #+#    #+#             */
-/*   Updated: 2026/02/08 19:04:58 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/10 21:00:14 by olreshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parser.h"
 
-size_t ft_strlen(const char *s)
+size_t	ft_strlen(const char *s)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	while (s[i])
@@ -22,11 +22,11 @@ size_t ft_strlen(const char *s)
 	return (i);
 }
 
-char *ft_strdup(const char *s)
+char	*ft_strdup(const char *s)
 {
-	char *dup;
-	size_t len;
-	size_t i;
+	char	*dup;
+	size_t	len;
+	size_t	i;
 
 	len = ft_strlen(s);
 	dup = malloc(sizeof(char) * (len + 1));
@@ -42,9 +42,9 @@ char *ft_strdup(const char *s)
 	return (dup);
 }
 
-int ft_strncmp(const char *s1, const char *s2, size_t n)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	while (i < n && (s1[i] || s2[i]))
@@ -56,15 +56,16 @@ int ft_strncmp(const char *s1, const char *s2, size_t n)
 	return (0);
 }
 
-int ft_isspace(int c)
+int	ft_isspace(int c)
 {
-	return (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f' || c == '\r');
+	return (c == ' ' || c == '\t' || c == '\n' || c == '\v' \
+|| c == '\f' || c == '\r');
 }
 
-int ft_atoi(const char *str)
+int	ft_atoi(const char *str)
 {
-	int result;
-	int sign;
+	int	result;
+	int	sign;
 
 	result = 0;
 	sign = 1;

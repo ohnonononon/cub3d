@@ -6,16 +6,16 @@
 /*   By: olreshet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 00:00:00 by olreshet          #+#    #+#             */
-/*   Updated: 2026/02/08 19:05:51 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/10 21:01:03 by olreshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parser.h"
 
-static int count_words(char const *s, char c)
+static int	count_words(char const *s, char c)
 {
-	int count;
-	int in_word;
+	int		count;
+	int		in_word;
 
 	count = 0;
 	in_word = 0;
@@ -33,11 +33,11 @@ static int count_words(char const *s, char c)
 	return (count);
 }
 
-static char *get_next_word(char const **s, char c)
+static char	*get_next_word(char const **s, char c)
 {
-	char *word;
-	size_t len;
-	size_t i;
+	char	*word;
+	size_t	len;
+	size_t	i;
 
 	while (**s == c)
 		(*s)++;
@@ -58,18 +58,18 @@ static char *get_next_word(char const **s, char c)
 	return (word);
 }
 
-static void free_split(char **result, int count)
+static void	free_split(char **result, int count)
 {
 	while (count > 0)
 		free(result[--count]);
 	free(result);
 }
 
-char **ft_split(char const *s, char c)
+char	**ft_split(char const *s, char c)
 {
-	char **result;
-	int word_count;
-	int i;
+	char	**result;
+	int		word_count;
+	int		i;
 
 	if (!s)
 		return (NULL);

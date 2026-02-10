@@ -6,19 +6,19 @@
 /*   By: olreshet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 19:30:00 by olreshet          #+#    #+#             */
-/*   Updated: 2026/02/08 22:31:01 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/10 21:13:13 by olreshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parser.h"
 
-int validate_characters(t_map *map);
-int validate_closed_walls(t_map *map);
+int	validate_characters(t_map *map);
+int	validate_closed_walls(t_map *map);
 
-static void calculate_map_width(t_map *map)
+static void	calculate_map_width(t_map *map)
 {
-	int i;
-	int len;
+	int	i;
+	int	len;
 
 	map->width = 0;
 	i = 0;
@@ -31,7 +31,7 @@ static void calculate_map_width(t_map *map)
 	}
 }
 
-static int validate_minimum_size(t_map *map)
+static int	validate_minimum_size(t_map *map)
 {
 	if (map->height < 3 || map->width < 3)
 	{
@@ -41,7 +41,7 @@ static int validate_minimum_size(t_map *map)
 	return (1);
 }
 
-int validate_map(t_map *map)
+int	validate_map(t_map *map)
 {
 	if (!map->grid || map->height == 0)
 	{

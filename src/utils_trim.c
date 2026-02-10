@@ -6,15 +6,15 @@
 /*   By: olreshet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 00:00:00 by olreshet          #+#    #+#             */
-/*   Updated: 2026/02/08 19:05:19 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/10 21:01:31 by olreshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parser.h"
 
-static void ft_copy_trimmed(char *trimmed, char *start, size_t len)
+static void	ft_copy_trimmed(char *trimmed, char *start, size_t len)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	while (i < len)
@@ -25,12 +25,12 @@ static void ft_copy_trimmed(char *trimmed, char *start, size_t len)
 	trimmed[len] = '\0';
 }
 
-char *ft_strtrim(char *s)
+char	*ft_strtrim(char *s)
 {
-	char *start;
-	char *end;
-	char *trimmed;
-	size_t len;
+	char	*start;
+	char	*end;
+	char	*trimmed;
+	size_t	len;
 
 	if (!s)
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 22:20:07 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/02/10 16:00:31 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/10 21:30:02 by olreshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ void	set_constants(t_const *c)
 	c->width = c->tile_size * 16;
 	c->eps = 0.0001f;
 	c->fov = PI / 3.0f;
-	c->proj_plane_dist = fabs(((float)c->width / 2.0) /
-						   tan(c->fov / 2.0));
+	c->proj_plane_dist = fabs(((float)c->width / 2.0) / \
+tan(c->fov / 2.0));
 }
 
 void	upd_mmap_data(t_mmap *mmap, t_const c, t_player *pl)

@@ -6,15 +6,15 @@
 /*   By: olreshet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 00:00:00 by olreshet          #+#    #+#             */
-/*   Updated: 2026/02/08 19:05:37 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/10 20:57:15 by olreshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parser.h"
 
-int validate_file_extension(const char *filename)
+int	validate_file_extension(const char *filename)
 {
-	size_t len;
+	size_t	len;
 
 	if (!filename)
 		return (0);
@@ -26,7 +26,7 @@ int validate_file_extension(const char *filename)
 	return (1);
 }
 
-void init_config(t_config *config)
+void	init_config(t_config *config)
 {
 	config->textures.north = NULL;
 	config->textures.south = NULL;
@@ -46,20 +46,20 @@ void init_config(t_config *config)
 	config->map.start_dir = '\0';
 }
 
-char *read_line(int fd)
+char	*read_line(int fd)
 {
-	char buffer[1024];
-	char *line;
-	int i;
-	char c;
-	ssize_t bytes;
+	char	buffer[1024];
+	char	*line;
+	int		i;
+	char	c;
+	ssize_t	bytes;
 
 	i = 0;
 	bytes = read(fd, &c, 1);
 	while (bytes > 0)
 	{
 		if (c == '\n')
-			break;
+			break ;
 		if (i < 1023)
 			buffer[i++] = c;
 		bytes = read(fd, &c, 1);
@@ -71,23 +71,26 @@ char *read_line(int fd)
 	return (line);
 }
 
-int is_map_line(const char *line)
+int	is_map_line(const char *line)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] != ' ' && line[i] != '1' && line[i] != '0' && line[i] != 'N' && line[i] != 'S' && line[i] != 'E' && line[i] != 'W' && line[i] != '\t')
+		if (line[i] != ' ' && line[i] != '1' && line[i] != '0' \
+&& line[i] != 'N' && line[i] != 'S' && line[i] != 'E' && line[i] != 'W' \
+&& line[i] != '\t')
 			return (0);
 		i++;
 	}
 	return (1);
 }
 
-int all_identifiers_present(t_config *config)
+int	all_identifiers_present(t_config *config)
 {
-	if (!config->textures.north || !config->textures.south || !config->textures.west || !config->textures.east)
+	if (!config->textures.north || !config->textures.south || \
+!config->textures.west || !config->textures.east)
 		return (0);
 	if (config->textures.floor.r == -1 || config->textures.ceiling.r == -1)
 		return (0);
