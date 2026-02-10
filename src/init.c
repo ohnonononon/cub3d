@@ -6,7 +6,7 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 22:20:07 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/02/10 17:51:28 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/10 18:12:08 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int	set_textures(t_data *d, t_assets *ass, t_textures cf)
 	{
 		ass->xpm[i] = NULL;
 		ass->img[i] = NULL;
+		i++;
 	}
 	if (load_texture_wrapper(ass->img[0], ass->xpm[0], cf.east, d->mlx) == -1)
 		return (-1);

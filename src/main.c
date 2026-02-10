@@ -6,13 +6,11 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 18:56:19 by nimatura          #+#    #+#             */
-/*   Updated: 2026/02/10 18:04:35 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/10 18:10:41 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
-#include "MLX42/MLX42.h"
-#include "parser.h"
 
 void	cam_bg(t_data *d)
 {
@@ -83,7 +81,7 @@ void	set_tex(t_tex_tools *t, t_raydata *rd, t_player *pl, int i)
 		t->wall_x = pl->p.x + rd[i].len * cos(rd[i].angle);
 	t->wall_x -= floorf(t->wall_x);
 	t->side = rd[i].side;
-	if (t->side == '0')
+	if (t->side == 0)
 	{
 		if (rd[i].angle < PI)
 			t->orient = EAST;
@@ -109,7 +107,7 @@ void	draw_vline(t_assets *ass, t_cam *d, t_vline *v, t_tex_tools *t)
 	tex = &ass->xpm[t->orient]->texture;
 	step = tex->height / v->wall_h;
 	tex_pos = 0.0f;
-	t->tex_x = t->wall_x * tex->width;
+	t->tex_x = (int)(t->wall_x * tex->width);
 	if (t->tex_x < 0)
 		t->tex_x = 0;
 	if (v->start_y < 0)
@@ -124,8 +122,8 @@ void	draw_vline(t_assets *ass, t_cam *d, t_vline *v, t_tex_tools *t)
 			t->tex_y = tex->height - 1;
 		t->color = get_tex_pixel(tex, t->tex_x, t->tex_y);
 		mlx_put_pixel(d->img, v->i, y, t->color);
-		y++;
 		tex_pos += step;
+		y++;
 	}
 }
 
@@ -152,8 +150,8 @@ void	render_cam(t_data *d)
 		// while (rays[v.i].angle > 2 * PI)
 		// 	rays[v.i].angle -= 2 * PI;
 		set_cam_ray(d, &rays[v.i]);
-		set_vline(d, &v, rays[v.i].len);
-		set_tex(&d->t, rays, &d->player, v.i);
+		// set_vline(d, &v, rays[v.i].len);
+		// set_tex(&d->t, rays, &d->player, v.i);
 		// draw_vline(&d->ass, &d->cam, &v, &d->t);
 		v.i++;
 	}
@@ -169,8 +167,8 @@ void	program_loop(void *ptr)
 	if (throttle_fps() == -1)
 		return ;
 	key_hooks(d);
-	calculate_main_ray(d);
-	render_cam(d);
+	// calculate_main_ray(d);
+	// render_cam(d);
 	// upd_mmap_data(&d->mmap, d->c, &d->player);
 	// render_mmap(&d->cam, &d->mmap, &d->c, &d->config.map);
 }
