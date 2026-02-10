@@ -6,7 +6,7 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 18:56:19 by nimatura          #+#    #+#             */
-/*   Updated: 2026/02/10 21:07:29 by nimatura         ###   ########.fr       */
+/*   Updated: 2026/02/10 21:10:01 by nimatura         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ void	render_cam(t_data *d)
 		set_cam_ray(d, &rays[v.i]);
 		set_vline(d, &v, rays[v.i].len);
 		set_tex(&d->t, rays, &d->player, v.i);
-		draw_vline(&d->ass, &d->cam, &v, &d->t);
+		// draw_vline(&d->ass, &d->cam, &v, &d->t);
 		v.i++;
 	}
 }
