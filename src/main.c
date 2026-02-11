@@ -6,7 +6,7 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 18:56:19 by nimatura          #+#    #+#             */
-/*   Updated: 2026/02/11 20:05:21 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/11 21:12:15 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,11 @@ void	set_vline(t_data *d, t_vline *v, float len)
 	v->wall_h = (d->c.tile_size / len) * d->c.proj_plane_dist;
 	v->start_y = (int)(((float)d->c.height / 2) - (v->wall_h / 2));
 	v->end_y = (int)(((float)d->c.height / 2) + (v->wall_h / 2));
+	if (v->start_y < 0)
+		v->start_y = 0;
+	if (v->end_y >= (int)d->cam.img->height)
+		v->end_y = d->cam.img->height - 1;
+
 }
 
 uint32_t	get_tex_pixel(mlx_texture_t *tex, int x, int y)
@@ -47,22 +52,23 @@ uint32_t	get_tex_pixel(mlx_texture_t *tex, int x, int y)
 void	set_tex(t_tex_tools *t, t_raydata *rd, t_player *pl, int i)
 {
 	t->wall_x = 0;
-	if (rd[i].side == 0)
-		t->wall_x = pl->p.y + rd[i].len * sinf(rd[i].angle);
+	if (rd[i].ray.side == 0)
+		t->wall_x = pl->p.y + rd[i].ray.ray_len * rd[i].ray.ray.y;
 	else
-		t->wall_x = pl->p.x + rd[i].len * cosf(rd[i].angle);
-	t->wall_x -= floorf(t->wall_x);
-	t->side = rd[i].side;
+		t->wall_x = pl->p.x + rd[i].ray.ray_len * rd[i].ray.ray.x;
+	t->wall_x = fmodf(t->wall_x, 64.0f) / 64.0f;
+	// t->wall_x -= floorf(t->wall_x);
+	t->side = rd[i].ray.side;
 	if (t->side == 0)
 	{
-		if (rd[i].angle < PI)
+		if (rd[i].ray.step.x > 0)
 			t->orient = EAST;
 		else
 			t->orient = WEST;
 	}
 	else
 	{
-		if (rd[i].angle < PI)
+		if (rd[i].ray.step.y > 0)
 			t->orient = SOUTH;
 		else
 			t->orient = NORTH;
@@ -82,24 +88,35 @@ void	draw_vline(t_assets *ass, t_cam *d, t_vline *v, t_tex_tools *t)
 	(void)step;
 	(void)y;
 
+	int	draw_start, draw_end;
+
 	tex = ass->tex[t->orient];
-	step = tex->height / v->wall_h;
-	tex_pos = 0.0f;
-	t->tex_x = ((int)t->wall_x * tex->width);
+	step = (float)tex->height / v->wall_h;
+
+	draw_start = v->start_y;
+	draw_end = v->end_y;
+
+	tex_pos = 0;
+	if (v->start_y < 0)
+	{
+		tex_pos = -v->start_y * step;
+		draw_start = 0;
+	}
+	if (draw_end >= (int)d->img->height)
+		draw_end = d->img->height - 1;
+
+	t->tex_x = (int)(t->wall_x * tex->width);
+	if (t->tex_x >= (int)tex->width)
+		t->tex_x = tex->width - 1;
 	if (t->tex_x < 0)
 		t->tex_x = 0;
-	if (v->start_y < 0)
-		v->start_y = 0;
-	if (v->end_y >= (int)d->img->height)
-		v->end_y = d->img->height - 1;
-	y = v->start_y;
-	while (y <= v->end_y)
+
+	y = draw_start;
+	while (y <= draw_end)
 	{
 		t->tex_y = (int)tex_pos;
 		if (t->tex_y >= (int)tex->height)
-		{
 			t->tex_y = tex->height - 1;
-		}
  		t->color = get_tex_pixel(tex, t->tex_x, t->tex_y);
  		mlx_put_pixel(d->img, v->i, y, t->color);
 		tex_pos += step;
