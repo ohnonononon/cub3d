@@ -6,17 +6,12 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 22:20:07 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/02/10 20:55:55 by nimatura         ###   ########.fr       */
+/*   Updated: 2026/02/11 19:50:51 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
-#include "MLX42/MLX42.h"
-#include "parser.h"
 
-int		set_mmap(t_data *d, t_const c);
-int		set_camera(t_data *d, int width, int height);
-int		set_mlx(t_data	*d);
 
 int	set_mmap_mlx(t_data *d, t_const c)
 {
@@ -42,14 +37,14 @@ int	set_camera_mlx(t_data *d, int width, int height)
 	return (0);
 }
 
-int	load_texture_wrapper(mlx_image_t *img, mlx_texture_t *tex,
+int	load_texture_wrapper(mlx_image_t **img, mlx_texture_t **tex,
 						 char *path, mlx_t *mlx)
 {
-	tex = mlx_load_png(path);
-	if (!tex)
+	*tex = mlx_load_png(path);
+	if (!*tex)
 		return (-1);
-	img = mlx_texture_to_image(mlx, tex);
-	if (!img)
+	*img = mlx_texture_to_image(mlx, *tex);
+	if (!*img)
 		return (-1);
 	return (0);
 }
@@ -65,13 +60,13 @@ int	set_textures(t_data *d, t_assets *ass, t_textures cf)
 		ass->img[i] = NULL;
 		i++;
 	}
-	if (load_texture_wrapper(ass->img[0], ass->tex[0], cf.east, d->mlx) == -1)
+	if (load_texture_wrapper(&ass->img[0], &ass->tex[0], cf.east, d->mlx) == -1)
 		return (-1);
-	if (load_texture_wrapper(ass->img[1], ass->tex[1], cf.south, d->mlx) == -1)
+	if (load_texture_wrapper(&ass->img[1], &ass->tex[1], cf.south, d->mlx) == -1)
 		return (-1);
-	if (load_texture_wrapper(ass->img[2], ass->tex[2], cf.west, d->mlx) == -1)
+	if (load_texture_wrapper(&ass->img[2], &ass->tex[2], cf.west, d->mlx) == -1)
 		return (-1);
-	if (load_texture_wrapper(ass->img[3], ass->tex[3], cf.north, d->mlx) == -1)
+	if (load_texture_wrapper(&ass->img[3], &ass->tex[3], cf.north, d->mlx) == -1)
 		return (-1);
 	return (0);
 }

@@ -6,13 +6,11 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 18:00:16 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/02/10 20:57:54 by nimatura         ###   ########.fr       */
+/*   Updated: 2026/02/11 19:58:11 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
-#include "MLX42/MLX42.h"
-#include <stdlib.h>
 
 int	exit_err(void);
 int	terminate_cub_ui(t_data *d, t_mmap *mmap, int err);
@@ -30,15 +28,12 @@ void	terminate_assets(mlx_t *mlx, t_assets *ass)
 	int	i;
 
 	i = 0;
-	while (ass->img[i] != NULL)
+	while (ass->img[i] != NULL && i < 4)
 	{
 		mlx_delete_image(mlx, ass->img[i]);
 		ass->img[i] = NULL;
-	}
-	while (ass->tex[i] != NULL)
-	{
 		mlx_delete_texture(ass->tex[i]);
-		ass->tex[i] = NULL;
+		ass->tex[i++] = NULL;
 	}
 }
 

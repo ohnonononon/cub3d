@@ -6,7 +6,7 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 20:53:34 by nimatura          #+#    #+#             */
-/*   Updated: 2026/02/10 20:54:53 by nimatura         ###   ########.fr       */
+/*   Updated: 2026/02/11 19:54:01 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,21 +212,33 @@ int		set_data(t_data *d);
 
 /* SETUP */
 void	set_constants(t_const *c);
-int		set_mapdata(t_mapdata *d);
+void	set_player(t_map *map, t_player *d, t_const c, t_mmap *mmap);
+void	upd_mmap_data(t_mmap *mmap, t_const c, t_player *pl);
+int		set_data(t_data *d);
+
+/* INIT */
+int		set_mmap_mlx(t_data *d, t_const c);
+int		set_camera_mlx(t_data *d, int width, int height);
+int		load_texture_wrapper(mlx_image_t **img, mlx_texture_t **tex,
+						 char *path, mlx_t *mlx);
+int		set_textures(t_data *d, t_assets *ass, t_textures cf);
 int		set_mlx(t_data	*d);
+
+/* RAY CALCULATION */
+void	set_ray_move(t_ray *d, t_player *pl, t_const c);
+void	set_ray(t_ray *d, t_player *pl, t_const c);
+void	calculate_main_ray(t_data *data);
+void	ray_loop(t_ray *d, t_map *map);
+void	set_ray_len(t_ray *d, int wall);
+
+/* THROTTLE */
+int	throttle_fps(void);
+
+/* CAMERA UTILS */
+void	cam_bg(t_data *d);
 
 /* INTERACTION UTILS: ex colision */
 int		retrieve_tile(t_const c, t_map *map, t_fpair p, t_fpair mv);
-
-/* PLAYER */
-void	set_player(t_map *map, t_player *d, t_const c, t_mmap *mmap);
-void	draw_player(t_mmap *mmap, t_fpair c, int radius);
-
-/* MINIMAP */
-void	upd_mmap_data(t_mmap *mmap, t_const c, t_player *pl);
-void	render_mmap(t_cam *cam, t_mmap *mmap, t_const *c, t_map *map);
-void	draw_line_mmap(mlx_image_t *img, t_fpair start, t_fpair delta, t_draw draw);
-void	calculate_line_mmap(t_cam *cam, t_player *p, t_line *line, t_const c);
 
 /* MMAP UTILS */
 int32_t	set_color_mmap(char type);
@@ -244,6 +256,7 @@ int		terminate_cub_ui(t_data *d, t_mmap *mmap, int err);
 int		terminate_cub_data(t_data *d, int err);
 int		terminate_cub(t_data *d, int err);
 
+/* TO BE DELETED FOR EVAL */
 /* MATH UTLS */
 int		util_roundf(float x);
 int		util_get_max(float a, float b);
@@ -254,14 +267,14 @@ void	debug_player_line(char *buf, size_t bufsize,
 					   float line_end_x, float line_end_y);
 void	print_dbg(t_data *d);
 
-/* RAY CALCULATION */
-void	set_ray_move(t_ray *d, t_player *pl, t_const c);
-void	set_ray(t_ray *d, t_player *pl, t_const c);
-void	calculate_main_ray(t_data *data);
-void	ray_loop(t_ray *d, t_map *map);
-void	set_ray_len(t_ray *d, int wall);
+/* PLAYER: MMAP*/
+void	set_player(t_map *map, t_player *d, t_const c, t_mmap *mmap);
+void	draw_player(t_mmap *mmap, t_fpair c, int radius);
 
-/* THROTTLE */
-int	throttle_fps(void);
+/* MINIMAP */
+void	upd_mmap_data(t_mmap *mmap, t_const c, t_player *pl);
+void	render_mmap(t_cam *cam, t_mmap *mmap, t_const *c, t_map *map);
+void	draw_line_mmap(mlx_image_t *img, t_fpair start, t_fpair delta, t_draw draw);
+void	calculate_line_mmap(t_cam *cam, t_player *p, t_line *line, t_const c);
 
 #endif
