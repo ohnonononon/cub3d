@@ -6,16 +6,12 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 18:56:19 by nimatura          #+#    #+#             */
-/*   Updated: 2026/02/11 19:57:01 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/11 20:05:21 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-// new len for normalised ray len
-/* NOTE:
-*  Size of rays is of d->c.width
-*/
 void	set_cam_ray(t_data *d, t_raydata *r)
 {
 	float	angletmp;
@@ -53,8 +49,8 @@ void	set_tex(t_tex_tools *t, t_raydata *rd, t_player *pl, int i)
 	t->wall_x = 0;
 	if (rd[i].side == 0)
 		t->wall_x = pl->p.y + rd[i].len * sinf(rd[i].angle);
-	// else
-	// 	t->wall_x = pl->p.x + rd[i].len * cosf(rd[i].angle);
+	else
+		t->wall_x = pl->p.x + rd[i].len * cosf(rd[i].angle);
 	t->wall_x -= floorf(t->wall_x);
 	t->side = rd[i].side;
 	if (t->side == 0)
@@ -89,38 +85,28 @@ void	draw_vline(t_assets *ass, t_cam *d, t_vline *v, t_tex_tools *t)
 	tex = ass->tex[t->orient];
 	step = tex->height / v->wall_h;
 	tex_pos = 0.0f;
-	// t->tex_x = ((int)t->wall_x * tex->width);
-// 	if (t->tex_x < 0)
-// 		t->tex_x = 0;
-// 	if (v->start_y < 0)
-// 		v->start_y = 0;
-// 	if (v->end_y >= (int)d->img->height)
-// 		v->end_y = d->img->height - 1;
-// 	y = v->start_y;
-// 	while (y <= v->end_y)
-// 	{
-// 		t->tex_y = (int)tex_pos;
-// 		if (t->tex_y >= (int)tex->height)
-// 			t->tex_y = tex->height - 1;
-// 		// t->color = get_tex_pixel(tex, t->tex_x, t->tex_y);
-// 		// mlx_put_pixel(d->img, v->i, y, t->color);
-// 		mlx_put_pixel(d->img, 0, 0, color_px(255, 120, 70, 255));
-// 		tex_pos += step;
-// 		y++;
-// 	}
+	t->tex_x = ((int)t->wall_x * tex->width);
+	if (t->tex_x < 0)
+		t->tex_x = 0;
+	if (v->start_y < 0)
+		v->start_y = 0;
+	if (v->end_y >= (int)d->img->height)
+		v->end_y = d->img->height - 1;
+	y = v->start_y;
+	while (y <= v->end_y)
+	{
+		t->tex_y = (int)tex_pos;
+		if (t->tex_y >= (int)tex->height)
+		{
+			t->tex_y = tex->height - 1;
+		}
+ 		t->color = get_tex_pixel(tex, t->tex_x, t->tex_y);
+ 		mlx_put_pixel(d->img, v->i, y, t->color);
+		tex_pos += step;
+		y++;
+	}
 }
 
-float	normalize_angle(float angle, float start, int i, float angle_i)
-{
-	angle = start + (i * angle_i);
-	while (angle < 0)
-		angle += 2 * PI;
-	while (angle > 2 * PI)
-		angle -= 2 * PI;
-	return (angle);
-}
-
-// VLA
 void	render_cam(t_data *d)
 {
 	t_raydata	rays[d->c.width];
@@ -142,7 +128,7 @@ void	render_cam(t_data *d)
 		set_cam_ray(d, &rays[v.i]);
 		set_vline(d, &v, rays[v.i].len);
 		set_tex(&d->t, rays, &d->player, v.i);
-		// draw_vline(&d->ass, &d->cam, &v, &d->t);
+		draw_vline(&d->ass, &d->cam, &v, &d->t);
 		v.i++;
 	}
 }

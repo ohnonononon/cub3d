@@ -6,7 +6,7 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 20:53:34 by nimatura          #+#    #+#             */
-/*   Updated: 2026/02/11 19:54:01 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/11 20:00:20 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,6 +236,7 @@ int	throttle_fps(void);
 
 /* CAMERA UTILS */
 void	cam_bg(t_data *d);
+float	normalize_angle(float angle, float start, int i, float angle_i);
 
 /* INTERACTION UTILS: ex colision */
 int		retrieve_tile(t_const c, t_map *map, t_fpair p, t_fpair mv);
