@@ -6,7 +6,7 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 22:20:07 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/02/14 02:37:47 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/14 03:15:54 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int	set_camera_mlx(t_data *d, int width, int height)
 {
-	if (!(d->cam.img = mlx_new_image(d->mlx, width, height)))
+	d->cam.img = mlx_new_image(d->mlx, width, height);
+	if (!d->cam.img)
 		return (-1);
 	if (mlx_image_to_window(d->mlx, d->cam.img, 0, 0) == -1)
 		return (-1);
@@ -22,7 +23,7 @@ int	set_camera_mlx(t_data *d, int width, int height)
 }
 
 int	load_texture_wrapper(mlx_image_t **img, mlx_texture_t **tex,
-						 char *path, mlx_t *mlx)
+						char *path, mlx_t *mlx)
 {
 	*tex = mlx_load_png(path);
 	if (!*tex)
@@ -44,13 +45,17 @@ int	set_textures(t_data *d, t_assets *ass, t_textures cf)
 		ass->img[i] = NULL;
 		i++;
 	}
-	if (load_texture_wrapper(&ass->img[0], &ass->tex[0], cf.east, d->mlx) == -1)
+	if (load_texture_wrapper(&ass->img[0], &ass->tex[0], \
+							cf.east, d->mlx) == -1)
 		return (-1);
-	if (load_texture_wrapper(&ass->img[1], &ass->tex[1], cf.south, d->mlx) == -1)
+	if (load_texture_wrapper(&ass->img[1], &ass->tex[1], \
+							cf.south, d->mlx) == -1)
 		return (-1);
-	if (load_texture_wrapper(&ass->img[2], &ass->tex[2], cf.west, d->mlx) == -1)
+	if (load_texture_wrapper(&ass->img[2], &ass->tex[2], \
+							cf.west, d->mlx) == -1)
 		return (-1);
-	if (load_texture_wrapper(&ass->img[3], &ass->tex[3], cf.north, d->mlx) == -1)
+	if (load_texture_wrapper(&ass->img[3], &ass->tex[3], \
+							cf.north, d->mlx) == -1)
 		return (-1);
 	return (0);
 }
@@ -58,12 +63,13 @@ int	set_textures(t_data *d, t_assets *ass, t_textures cf)
 int	set_mlx(t_data	*d)
 {
 	d->mlx = NULL;
-	if (!(d->mlx = mlx_init(d->c.width, d->c.height, "CUB3D", true)))
-		return (terminate_cub_ui(d, 1));
+	d->mlx = mlx_init(d->c.width, d->c.height, "CUB3D", true);
+	if (!d->mlx)
+		return (terminate_cub(d, 1));
 	d->cam.img = NULL;
 	if (set_camera_mlx(d, d->c.width, d->c.height) == -1)
-		return (terminate_cub_ui(d, 1));
+		return (terminate_cub(d, 1));
 	if (set_textures(d, &d->ass, d->config.textures) == -1)
-		return (terminate_cub_ui(d, 1));
+		return (terminate_cub(d, 1));
 	return (0);
 }

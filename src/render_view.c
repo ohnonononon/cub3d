@@ -6,7 +6,7 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/14 02:50:04 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/02/14 02:51:04 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/14 03:13:35 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,7 @@ void	draw_vline(t_assets *ass, t_cam *d, t_vline *v, t_tex_tools *t)
 	y = draw_start;
 	while (y <= draw_end)
 	{
-		int	d_y = y - v->start_y;
-		t->tex_y = (d_y * tex->height ) / v->wall_h;
+		t->tex_y = (tex->height * (y - v->start_y)) / v->wall_h;
 		if (t->tex_y >= (int)tex->height)
 			t->tex_y = tex->height - 1;
 		if (t->tex_y < 0)
@@ -64,7 +63,6 @@ void	draw_vline(t_assets *ass, t_cam *d, t_vline *v, t_tex_tools *t)
 
 void	render_cam(t_data *d)
 {
-	t_raydata	rays[d->c.width];
 	t_vline		v;
 	float		angle_i;
 	float		start_angle;
@@ -79,12 +77,11 @@ void	render_cam(t_data *d)
 	v.i = 0;
 	while (v.i < d->c.width)
 	{
-		rays[v.i].angle = normalize_angle(start_angle, v.i,  angle_i);
-		set_cam_ray(d, &rays[v.i]);
-		set_vline(d, &v, rays[v.i].len);
-		set_tex(&d->ass, &d->t, &rays[v.i], &d->player);
+		d->rays[v.i].angle = normalize_angle(start_angle, v.i,  angle_i);
+		set_cam_ray(d, &d->rays[v.i]);
+		set_vline(d, &v, d->rays[v.i].len);
+		set_tex(&d->ass, &d->t, &d->rays[v.i], &d->player);
 		draw_vline(&d->ass, &d->cam, &v, &d->t);
 		v.i++;
 	}
 }
-

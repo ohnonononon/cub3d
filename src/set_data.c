@@ -6,11 +6,15 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 22:20:07 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/02/14 02:35:59 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/14 03:09:47 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
+
+int		set_data(int argc, char **argv, t_data *d);
+void	set_player(t_map *map, t_player *d, t_const c);
+void	set_constants(t_const *c);
 
 void	set_player(t_map *map, t_player *d, t_const c)
 {
@@ -57,6 +61,9 @@ int	set_data(int argc, char **argv, t_data *d)
 	}
 	set_constants(&d->c);
 	set_player(&d->config.map, &d->player, d->c);
+	d->rays = malloc(sizeof(t_raydata) * d->c.width);
+	if (d->rays == NULL)
+		return (-1);
 	if (set_mlx(d) == -1)
 		return (terminate_cub(d, -1), -1);
 	return (0);

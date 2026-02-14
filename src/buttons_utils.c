@@ -6,7 +6,7 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 16:14:05 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/02/14 02:27:16 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/14 03:16:40 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static void	frontal_mov(t_data *data, t_player *player)
 void	key_hooks(void *param)
 {
 	t_data	*data;
-	
+
 	data = (t_data *)param;
 	frontal_mov(data, &data->player);
 	strafe_mov(data, &data->player);

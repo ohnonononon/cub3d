@@ -6,7 +6,7 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 20:53:34 by nimatura          #+#    #+#             */
-/*   Updated: 2026/02/14 02:50:55 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/14 03:06:29 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,7 @@ typedef struct	s_data
 	t_player	player;
 	t_assets	ass;
 	char		d_flag;
+	t_raydata	*rays;
 }				t_data;
 
 /* MAIN */

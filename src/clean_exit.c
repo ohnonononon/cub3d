@@ -6,7 +6,7 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 18:00:16 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/02/14 02:34:11 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/14 03:15:37 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,11 @@ int	terminate_cub_data(t_data *d, int err)
 
 int	terminate_cub(t_data *d, int err)
 {
+	if (d->rays)
+	{
+		free(d->rays);
+		d->rays = NULL;
+	}
 	err += terminate_cub_data(d, err);
 	err += terminate_cub_ui(d, err);
 	if (err < 0)

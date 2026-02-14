@@ -6,7 +6,7 @@
 /*   By: olreshet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 00:00:00 by olreshet          #+#    #+#             */
-/*   Updated: 2026/02/10 20:43:56 by olreshet         ###   ########.fr       */
+/*   Updated: 2026/02/14 03:01:59 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	validate_rgb_values(int r, int g, int b)
 static int	parse_rgb_components(char **comp, int *r, int *g, int *b)
 {
 	if (!is_valid_number(comp[0]) || !is_valid_number(comp[1]) \
-|| !is_valid_number(comp[2]))
+	|| !is_valid_number(comp[2]))
 		return (0);
 	*r = ft_atoi(comp[0]);
 	*g = ft_atoi(comp[1]);
@@ -72,7 +72,7 @@ int	parse_color(char *color_str, t_color *color)
 
 	components = ft_split(color_str, ',');
 	if (!components || !components[0] || !components[1] || !components[2] \
-|| components[3])
+	|| components[3])
 	{
 		if (components)
 			free_components(components);
