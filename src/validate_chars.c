@@ -6,7 +6,7 @@
 /*   By: olreshet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 00:00:00 by olreshet          #+#    #+#             */
-/*   Updated: 2026/02/10 21:12:27 by olreshet         ###   ########.fr       */
+/*   Updated: 2026/02/14 12:04:40 by olreshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	is_valid_char(char c)
 {
 	return (c == ' ' || c == '1' || c == '0' || c == 'N' \
-|| c == 'S' || c == 'E' || c == 'W');
+	|| c == 'S' || c == 'E' || c == 'W');
 }
 
 static int	is_start_pos(char c)

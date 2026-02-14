@@ -6,7 +6,7 @@
 /*   By: olreshet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 00:00:00 by olreshet          #+#    #+#             */
-/*   Updated: 2026/02/10 21:15:55 by olreshet         ###   ########.fr       */
+/*   Updated: 2026/02/14 12:07:06 by olreshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ static int	is_walkable(char c)
 static int	check_cell_walls(t_map *map, int i, int j)
 {
 	if (!check_cell_closed(map, i - 1, j) \
-|| !check_cell_closed(map, i + 1, j) \
-|| !check_cell_closed(map, i, j - 1) \
-|| !check_cell_closed(map, i, j + 1))
+	|| !check_cell_closed(map, i + 1, j) \
+	|| !check_cell_closed(map, i, j - 1) \
+	|| !check_cell_closed(map, i, j + 1))
 	{
 		printf("Error\nMap is not closed by walls at (%d, %d)\n",
 			j, i);

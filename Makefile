@@ -6,12 +6,12 @@
 #    By: nimatura <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/07 20:35:18 by nimatura          #+#    #+#              #
-#    Updated: 2026/02/14 03:18:58 by ohnonon          ###   ########.fr        #
+#    Updated: 2026/02/14 12:18:06 by olreshet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME	:= Game
-CFLAGS	:= -g -Wextra -Wall -Werror -Wunreachable-code -Ofast
+NAME	:= cub3D
+CFLAGS	:= -g -Wextra -Wall -Werror -Wunreachable-code -Ofast 
 LIBMLX	:= ./lib/MLX42
 
 HEADERS	:= -I ./include -I $(LIBMLX)/include
