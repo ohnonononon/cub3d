@@ -6,7 +6,7 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/14 02:50:04 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/02/14 03:13:35 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/14 03:20:29 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	render_cam(t_data *d)
 	v.i = 0;
 	while (v.i < d->c.width)
 	{
-		d->rays[v.i].angle = normalize_angle(start_angle, v.i,  angle_i);
+		d->rays[v.i].angle = normalize_angle(start_angle, v.i, angle_i);
 		set_cam_ray(d, &d->rays[v.i]);
 		set_vline(d, &v, d->rays[v.i].len);
 		set_tex(&d->ass, &d->t, &d->rays[v.i], &d->player);

@@ -6,7 +6,7 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 19:08:12 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/02/11 20:07:16 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/14 03:21:34 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static int	is_diag_touch(t_const c, t_map *map, t_fpair p, t_fpair mv)
 		return (1);
 	return (0);
 }
-
 
 static int	is_cardinal_touch(t_const c, t_map *map, t_fpair p, t_fpair mv)
 {

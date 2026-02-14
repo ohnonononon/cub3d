@@ -6,7 +6,7 @@
 /*   By: olreshet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 00:00:00 by olreshet          #+#    #+#             */
-/*   Updated: 2026/02/10 21:00:14 by olreshet         ###   ########.fr       */
+/*   Updated: 2026/02/14 03:21:18 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 int	ft_isspace(int c)
 {
 	return (c == ' ' || c == '\t' || c == '\n' || c == '\v' \
-|| c == '\f' || c == '\r');
+	|| c == '\f' || c == '\r');
 }
 
 int	ft_atoi(const char *str)

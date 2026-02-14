@@ -6,7 +6,7 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 19:19:15 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/02/14 02:37:05 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/14 03:24:17 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,25 +24,25 @@ void	set_ray_move(t_ray *d, t_player *pl, t_const c)
 	{
 		d->step.x = -1;
 		d->dist.x = (pl->p.x - d->tile.x * c.tile_size) / c.tile_size \
-* d->delta.x;
+	* d->delta.x;
 	}
 	else
 	{
 		d->step.x = 1;
 		d->dist.x = ((d->tile.x + 1) * c.tile_size - pl->p.x) / \
-c.tile_size * d->delta.x;
+	c.tile_size * d->delta.x;
 	}
 	if (d->ray.y < 0)
 	{
 		d->step.y = -1;
 		d->dist.y = (pl->p.y - d->tile.y * c.tile_size) \
-/ c.tile_size * d->delta.y;
+	/ c.tile_size * d->delta.y;
 	}
 	else
 	{
 		d->step.y = 1;
 		d->dist.y = ((d->tile.y + 1) * c.tile_size - pl->p.y) \
-/ c.tile_size * d->delta.y;
+	/ c.tile_size * d->delta.y;
 	}
 }
 

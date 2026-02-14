@@ -6,7 +6,7 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 18:00:16 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/02/14 03:15:37 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/14 03:25:24 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	terminate_cub_ui(t_data *d, int err)
 	mlx_terminate(d->mlx);
 	d->mlx = NULL;
 	if (err == 1)
-		return(-1);
+		return (-1);
 	return (0);
 }
 

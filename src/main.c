@@ -6,7 +6,7 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 18:56:19 by nimatura          #+#    #+#             */
-/*   Updated: 2026/02/14 02:51:31 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/14 03:26:30 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	program_loop(void *ptr)
 	t_data			*d;
 
 	d = (t_data *)ptr;
-
 	key_hooks(d);
 	calculate_main_ray(d);
 	render_cam(d);
@@ -26,8 +25,9 @@ void	program_loop(void *ptr)
 // char	*t1[3] = {"bin", "./maps/simple.cub" , NULL};
 int	main(int argc, char **argv)
 {
-	t_data	d = {0};
+	t_data	d;
 
+	d = (t_data){0};
 	if (set_data(argc, argv, &d) == -1)
 		return (EXIT_FAILURE);
 	mlx_loop_hook(d.mlx, &program_loop, &d);

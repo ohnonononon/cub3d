@@ -6,27 +6,23 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/14 02:29:01 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/02/14 02:46:53 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/14 03:28:00 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
 uint32_t	get_tex_pixel(mlx_texture_t *tex, int x, int y);
-void		set_tex(t_assets *ass, t_tex_tools *t, t_raydata *rd,\
-			  t_player *pl);
+void		set_tex(t_assets *ass, t_tex_tools *t, t_raydata *rd, \
+			t_player *pl);
 
 uint32_t	get_tex_pixel(mlx_texture_t *tex, int x, int y)
 {
-	int i;
+	int	i;
 
 	i = (y * tex->width + x) * 4;
-	return (
-	(tex->pixels[i] << 24) |
-	(tex->pixels[i + 1] << 16) |
-	(tex->pixels[i + 2] << 8) |
-	(tex->pixels[i + 3])
-);
+	return ((tex->pixels[i] << 24) | (tex->pixels[i + 1] << 16) | \
+				(tex->pixels[i + 2] << 8) | (tex->pixels[i + 3]));
 }
 
 void	set_tex(t_assets *ass, t_tex_tools *t, t_raydata *rd, t_player *pl)
@@ -40,7 +36,7 @@ void	set_tex(t_assets *ass, t_tex_tools *t, t_raydata *rd, t_player *pl)
 			t->orient = WEST;
 	}
 	else
-{
+	{
 		t->wall_x = pl->p.x + rd->ray.ray_len * rd->ray.ray.x;
 		if (rd->ray.step.y > 0)
 			t->orient = SOUTH;

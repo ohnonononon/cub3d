@@ -6,7 +6,7 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/11 19:48:11 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/02/13 23:58:28 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/14 03:21:00 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ float	normalize_angle(float start, int i, float angle_i);
 
 void	cam_bg(t_data *d)
 {
-	t_ipair	i;
-	t_color	ref;
-	uint32_t color;
+	t_ipair		i;
+	t_color		ref;
+	uint32_t	color;
 
 	i.y = 0;
 	ref = d->config.textures.ceiling;
@@ -43,7 +43,7 @@ void	cam_bg(t_data *d)
 
 float	normalize_angle(float start, int i, float angle_i)
 {
-	float angle;
+	float	angle;
 
 	angle = start + (i * angle_i);
 	while (angle < 0)
