@@ -6,12 +6,11 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 18:56:19 by nimatura          #+#    #+#             */
-/*   Updated: 2026/02/14 02:02:40 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/14 02:45:35 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
-#include <unistd.h>
 
 void	set_cam_ray(t_data *d, t_raydata *r)
 {
@@ -33,48 +32,6 @@ void	set_vline(t_data *d, t_vline *v, float len)
 	v->start_y = (int)(((float)d->c.height / 2) - (v->wall_h / 2));
 	v->end_y = (int)(((float)d->c.height / 2) + (v->wall_h / 2));
 }
-
-uint32_t	get_tex_pixel(mlx_texture_t *tex, int x, int y)
-{
-	int i;
-
-	i = (y * tex->width + x) * 4;
-	return (
-	(tex->pixels[i] << 24) |
-	(tex->pixels[i + 1] << 16) |
-	(tex->pixels[i + 2] << 8) |
-	(tex->pixels[i + 3])
-);
-}
-
-void	set_tex(t_assets *ass, t_tex_tools *t, t_raydata *rd, t_player *pl)
-{
-	if (rd->ray.side == 0)
-	{
-		t->wall_x = pl->p.y + rd->ray.ray_len * rd->ray.ray.y;
-		if (rd->ray.step.x > 0)
-			t->orient = EAST;
-		else
-			t->orient = WEST;
-	}
-	else
-{
-		t->wall_x = pl->p.x + rd->ray.ray_len * rd->ray.ray.x;
-		if (rd->ray.step.y > 0)
-			t->orient = SOUTH;
-		else
-			t->orient = NORTH;
-	}
-	t->wall_x = fmodf(t->wall_x, 64.0f) / 64.0f;
-	t->tex_x = (int)(t->wall_x * ass->tex[t->orient]->width);
-	if (rd->ray.side == 0 && rd->ray.ray.x > 0)
-		t->tex_x = ass->tex[t->orient]->width - t->tex_x - 1;
-	if (rd->ray.side == 1 && rd->ray.ray.y < 0)
-		t->tex_x = ass->tex[t->orient]->width - t->tex_x - 1;
-	if (t->tex_x < 0)
-		t->tex_x = 0;
-}
-
 void	draw_vline(t_assets *ass, t_cam *d, t_vline *v, t_tex_tools *t)
 {
 	mlx_texture_t	*tex;
@@ -136,22 +93,17 @@ void	program_loop(void *ptr)
 
 	d = (t_data *)ptr;
 
-	print_dbg(d);
-	if (throttle_fps() == -1)
-		return ;
 	key_hooks(d);
 	calculate_main_ray(d);
 	render_cam(d);
-	// upd_mmap_data(&d->mmap, d->c, &d->player);
-	// render_mmap(&d->cam, &d->mmap, &d->c, &d->config.map);
 }
 
-char	*t1[3] = {"bin", "./maps/simple.cub" , NULL};
-int	main(void)
+// char	*t1[3] = {"bin", "./maps/simple.cub" , NULL};
+int	main(int argc, char **argv)
 {
-	int ac = 2;
 	t_data	d = {0};
-	if (set_data(ac, t1, &d) == -1)
+
+	if (set_data(argc, argv, &d) == -1)
 		return (EXIT_FAILURE);
 	mlx_loop_hook(d.mlx, &program_loop, &d);
 	mlx_loop(d.mlx);

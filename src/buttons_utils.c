@@ -6,7 +6,7 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 16:14:05 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/02/10 17:24:33 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/14 02:27:16 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,16 +76,6 @@ static void	frontal_mov(t_data *data, t_player *player)
 	}
 }
 
-void	debug_display(t_data *d)
-{
-	if (mlx_is_key_down(d->mlx, MLX_KEY_1))
-		d->d_flag = 0;
-	if (mlx_is_key_down(d->mlx, MLX_KEY_2))
-		d->d_flag = 1;
-	if (mlx_is_key_down(d->mlx, MLX_KEY_3))
-		d->d_flag = 2;
-}
-
 void	key_hooks(void *param)
 {
 	t_data	*data;
@@ -94,7 +84,6 @@ void	key_hooks(void *param)
 	frontal_mov(data, &data->player);
 	strafe_mov(data, &data->player);
 	player_rotate(data, &data->player);
-	debug_display(data);
 	if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(data->mlx);
 }

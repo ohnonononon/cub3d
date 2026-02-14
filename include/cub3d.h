@@ -6,7 +6,7 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 20:53:34 by nimatura          #+#    #+#             */
-/*   Updated: 2026/02/14 01:48:08 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/14 02:39:54 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,15 @@ library.
 #  define PI 3.14159265
 # endif
 
-#include "parser.h"
-#include "../lib/MLX42/include/MLX42/MLX42.h"
-#include <sys/time.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <strings.h>
-#include <math.h>
-#include <string.h> //memset
+# include "parser.h"
+# include "../lib/MLX42/include/MLX42/MLX42.h"
+# include <sys/time.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <stdbool.h>
+# include <strings.h>
+# include <math.h>
+# include <string.h>
 
 typedef enum e_or
 {
@@ -57,32 +57,17 @@ typedef struct	s_ipair
 	int	y;
 }				t_ipair;
 
-typedef struct	s_dpair
-{
-	double	x;
-	double	y;
-}				t_dpair;
-
 typedef struct	s_fpair
 {
 	float	x;
 	float	y;
 }				t_fpair;
-
-typedef struct	s_draw
-{
-	t_fpair	thick;
-	int32_t	color;
-	int		steps;
-}				t_draw;
-
 typedef struct	s_line
 {
 	t_fpair		start;
 	t_fpair		end;
 	t_fpair		delta;
 	int			scale;
-	t_draw		draw;
 }				t_line;
 
 typedef struct	s_player
@@ -103,25 +88,6 @@ typedef struct	s_paint_pixel
 	int	pad;
 }				t_paint_pixel;
 
-typedef struct	s_mapdata
-{
-	char	*map;
-	int		size;
-	t_fpair	player_pos;
-	char	x;
-	char	y;
-}				t_mapdata;
-
-typedef struct	s_mmap
-{
-	mlx_image_t	*img;
-	double		side;
-	int			size;
-	t_fpair		in_pos;
-	t_player	*player;
-	t_line		line;
-}				t_mmap;
-
 typedef struct s_tex_tools
 {
 	float		wall_x;
@@ -133,21 +99,15 @@ typedef struct s_tex_tools
 	e_or		orient;
 }		t_tex_tools;
 
-/* HEIGHT and WIDTH are window related */
 typedef struct	s_const
 {
-	int	mmap_padding;
-	int	mmap_tile_side;
-	int	mmap_img_side;
-	int	mmap_tile_line_count;
-	double	mmap_scale;
 	float	proj_plane_dist;
 	float	eps;
 	float	fov;
-	int	pl_radius;
-	int	tile_size;
-	int	height;
-	int	width;
+	int		pl_radius;
+	int		tile_size;
+	int		height;
+	int		width;
 }				t_const;
 
 typedef struct	s_ray
@@ -194,14 +154,12 @@ typedef struct	s_assets
 
 typedef struct	s_data
 {
-	t_tex_tools	t;
 	mlx_t		*mlx;
+	t_tex_tools	t;
 	t_config	config;
 	t_const		c;
 	t_cam		cam;
-	t_mmap		mmap;
 	t_player	player;
-	mlx_image_t	*debug;
 	t_assets	ass;
 	char		d_flag;
 }				t_data;
@@ -212,11 +170,9 @@ int		set_data(int ac, char **av, t_data *d);
 
 /* SETUP */
 void	set_constants(t_const *c);
-void	set_player(t_map *map, t_player *d, t_const c, t_mmap *mmap);
-void	upd_mmap_data(t_mmap *mmap, t_const c, t_player *pl);
+void	set_player(t_map *map, t_player *d, t_const c);
 
 /* INIT */
-int		set_mmap_mlx(t_data *d, t_const c);
 int		set_camera_mlx(t_data *d, int width, int height);
 int		load_texture_wrapper(mlx_image_t **img, mlx_texture_t **tex,
 						 char *path, mlx_t *mlx);
@@ -230,8 +186,9 @@ void	calculate_main_ray(t_data *data);
 void	ray_loop(t_ray *d, t_map *map);
 void	set_ray_len(t_ray *d, int wall);
 
-/* THROTTLE */
-int	throttle_fps(void);
+/* TEXTURE RENDERISATION */
+uint32_t	get_tex_pixel(mlx_texture_t *tex, int x, int y);
+void		set_tex(t_assets *ass, t_tex_tools *t, t_raydata *rd, t_player *pl);
 
 /* CAMERA UTILS */
 void	cam_bg(t_data *d);
@@ -239,10 +196,6 @@ float	normalize_angle(float start, int i, float angle_i);
 
 /* INTERACTION UTILS: ex colision */
 int		retrieve_tile(t_const c, t_map *map, t_fpair p, t_fpair mv);
-
-/* MMAP UTILS */
-int32_t	set_color_mmap(char type);
-void	paint_pixel_mmap(t_mmap *mmap, t_const *c, t_ipair screen, uint32_t color);
 
 /* DRAW UTILS */
 int32_t color_px(int32_t r, int32_t g, int32_t b, int32_t a);
@@ -252,29 +205,8 @@ void	key_hooks(void *param);
 
 /* EXIT */
 int		exit_err(void);
-int		terminate_cub_ui(t_data *d, t_mmap *mmap, int err);
+int		terminate_cub_ui(t_data *d, int err);
 int		terminate_cub_data(t_data *d, int err);
 int		terminate_cub(t_data *d, int err);
-
-/* TO BE DELETED FOR EVAL */
-/* MATH UTLS */
-int		util_roundf(float x);
-int		util_get_max(float a, float b);
-
-/* DEBUG */
-void	debug_player_line(char *buf, size_t bufsize,
-					   float player_x, float player_y, float player_angle,
-					   float line_end_x, float line_end_y);
-void	print_dbg(t_data *d);
-
-/* PLAYER: MMAP*/
-void	set_player(t_map *map, t_player *d, t_const c, t_mmap *mmap);
-void	draw_player(t_mmap *mmap, t_fpair c, int radius);
-
-/* MINIMAP */
-void	upd_mmap_data(t_mmap *mmap, t_const c, t_player *pl);
-void	render_mmap(t_cam *cam, t_mmap *mmap, t_const *c, t_map *map);
-void	draw_line_mmap(mlx_image_t *img, t_fpair start, t_fpair delta, t_draw draw);
-void	calculate_line_mmap(t_cam *cam, t_player *p, t_line *line, t_const c);
 
 #endif

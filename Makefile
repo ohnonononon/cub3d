@@ -6,7 +6,7 @@
 #    By: nimatura <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/07 20:35:18 by nimatura          #+#    #+#              #
-#    Updated: 2026/02/10 21:04:22 by nimatura         ###   ########.fr        #
+#    Updated: 2026/02/14 02:42:29 by ohnonon          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ all: $(NAME)
 %.o: %.c
 	@$(CC) $(CFLAGS) -o $@ -c $< $(HEADERS) && printf "Compiling: $(notdir $<)\n"
 
-$(NAME): $(OBJS)
+$(NAME): $(OBJS) Makefile
 	@$(CC) $(OBJS) $(LIBS) $(HEADERS) -o $(NAME)
 
 clean:

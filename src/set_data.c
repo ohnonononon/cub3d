@@ -6,18 +6,17 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 22:20:07 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/02/14 02:06:36 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/14 02:35:59 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-void	set_player(t_map *map, t_player *d, t_const c, t_mmap *mmap)
+void	set_player(t_map *map, t_player *d, t_const c)
 {
 	float	p;
 
 	p = c.tile_size / 2.0;
-	mmap->player = d;
 	d->p.x = map->start_x * c.tile_size + p;
 	d->p.y = map->start_y * c.tile_size + p;
 	if (map->start_dir == 'N')
@@ -34,12 +33,7 @@ void	set_player(t_map *map, t_player *d, t_const c, t_mmap *mmap)
 
 void	set_constants(t_const *c)
 {
-	c->mmap_padding = 1;
-	c->mmap_tile_line_count = 7;
 	c->tile_size = 64;
-	c->mmap_scale = 0.43;
-	c->mmap_tile_side = 27;
-	c->mmap_img_side = c->mmap_tile_side * c->mmap_tile_line_count;
 	c->pl_radius = 8;
 	c->height = c->tile_size * 9;
 	c->width = c->tile_size * 16;
@@ -47,13 +41,6 @@ void	set_constants(t_const *c)
 	c->fov = PI / 3.0f;
 	c->proj_plane_dist = fabs(((float)c->width / 2.0) / \
 tan(c->fov / 2.0));
-}
-
-void	upd_mmap_data(t_mmap *mmap, t_const c, t_player *pl)
-{
-	mmap->size = c.mmap_img_side + 1;
-	mmap->in_pos.x = pl->p.x * c.mmap_scale;
-	mmap->in_pos.y = pl->p.y * c.mmap_scale;
 }
 
 int	set_data(int argc, char **argv, t_data *d)
@@ -69,7 +56,7 @@ int	set_data(int argc, char **argv, t_data *d)
 		return (-1);
 	}
 	set_constants(&d->c);
-	set_player(&d->config.map, &d->player, d->c, &d->mmap);
+	set_player(&d->config.map, &d->player, d->c);
 	if (set_mlx(d) == -1)
 		return (terminate_cub(d, -1), -1);
 	return (0);
