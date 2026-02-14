@@ -6,11 +6,15 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 16:14:05 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/02/14 03:16:40 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/14 15:21:32 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
+
+// IDEAS:
+// 1. hacer el cambio, hacer retrieve tile y si esta en tile 1, hacer back
+// 2. castear rayos y si colisiona y len < 1, no permitir mov en direccion
 
 static void	player_rotate(t_data *data, t_player *player)
 {
@@ -58,6 +62,9 @@ static void	strafe_mov(t_data *data, t_player *player)
 
 static void	frontal_mov(t_data *data, t_player *player)
 {
+	t_fpair	tmp;
+
+	tmp = player->p;
 	if (mlx_is_key_down(data->mlx, MLX_KEY_W))
 	{
 		if (retrieve_tile(data->c, &data->config.map, player->p, player->dp))
