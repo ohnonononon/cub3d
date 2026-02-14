@@ -6,7 +6,7 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 18:56:19 by nimatura          #+#    #+#             */
-/*   Updated: 2026/02/14 02:02:40 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/14 02:13:57 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,14 +136,11 @@ void	program_loop(void *ptr)
 
 	d = (t_data *)ptr;
 
-	print_dbg(d);
 	if (throttle_fps() == -1)
 		return ;
 	key_hooks(d);
 	calculate_main_ray(d);
 	render_cam(d);
-	// upd_mmap_data(&d->mmap, d->c, &d->player);
-	// render_mmap(&d->cam, &d->mmap, &d->c, &d->config.map);
 }
 
 char	*t1[3] = {"bin", "./maps/simple.cub" , NULL};

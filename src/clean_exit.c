@@ -6,7 +6,7 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 18:00:16 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/02/14 02:10:57 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/14 02:14:33 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,9 @@ void	terminate_assets(mlx_t *mlx, t_assets *ass)
 	}
 }
 
-int	terminate_cub_ui(t_data *d, t_mmap *mmap, int err)
+int	terminate_cub_ui(t_data *d, int err)
 {
 	terminate_assets(d->mlx, &d->ass);
-	if (NULL != mmap->img)
-	{
-		mlx_delete_image(d->mlx, mmap->img);
-		mmap->img = NULL;
-	}
 	if (NULL != d->cam.img)
 	{
 		mlx_close_window(d->mlx);

@@ -6,7 +6,7 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 20:53:34 by nimatura          #+#    #+#             */
-/*   Updated: 2026/02/14 01:48:08 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/14 02:14:49 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,10 +240,6 @@ float	normalize_angle(float start, int i, float angle_i);
 /* INTERACTION UTILS: ex colision */
 int		retrieve_tile(t_const c, t_map *map, t_fpair p, t_fpair mv);
 
-/* MMAP UTILS */
-int32_t	set_color_mmap(char type);
-void	paint_pixel_mmap(t_mmap *mmap, t_const *c, t_ipair screen, uint32_t color);
-
 /* DRAW UTILS */
 int32_t color_px(int32_t r, int32_t g, int32_t b, int32_t a);
 
@@ -252,7 +248,7 @@ void	key_hooks(void *param);
 
 /* EXIT */
 int		exit_err(void);
-int		terminate_cub_ui(t_data *d, t_mmap *mmap, int err);
+int		terminate_cub_ui(t_data *d, int err);
 int		terminate_cub_data(t_data *d, int err);
 int		terminate_cub(t_data *d, int err);
 
