@@ -6,7 +6,7 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 20:53:34 by nimatura          #+#    #+#             */
-/*   Updated: 2026/02/11 20:00:20 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/14 01:48:08 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,13 +208,12 @@ typedef struct	s_data
 
 /* MAIN */
 void	program_loop(void *ptr);
-int		set_data(t_data *d);
+int		set_data(int ac, char **av, t_data *d);
 
 /* SETUP */
 void	set_constants(t_const *c);
 void	set_player(t_map *map, t_player *d, t_const c, t_mmap *mmap);
 void	upd_mmap_data(t_mmap *mmap, t_const c, t_player *pl);
-int		set_data(t_data *d);
 
 /* INIT */
 int		set_mmap_mlx(t_data *d, t_const c);
@@ -236,7 +235,7 @@ int	throttle_fps(void);
 
 /* CAMERA UTILS */
 void	cam_bg(t_data *d);
-float	normalize_angle(float angle, float start, int i, float angle_i);
+float	normalize_angle(float start, int i, float angle_i);
 
 /* INTERACTION UTILS: ex colision */
 int		retrieve_tile(t_const c, t_map *map, t_fpair p, t_fpair mv);

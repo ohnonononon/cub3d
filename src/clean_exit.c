@@ -6,7 +6,7 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 18:00:16 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/02/11 19:58:11 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/14 02:10:57 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ void	terminate_assets(mlx_t *mlx, t_assets *ass)
 	}
 }
 
-/* img->window->mlx */
-/* 2 elements: mmap and camera */
 int	terminate_cub_ui(t_data *d, t_mmap *mmap, int err)
 {
 	terminate_assets(d->mlx, &d->ass);
@@ -73,6 +71,14 @@ int	terminate_cub_data(t_data *d, int err)
 		free(d->config.map.grid);
 		d->config.map.grid = NULL;
 	}
+	if (d->config.textures.east != NULL)
+		free(d->config.textures.east);
+	if (d->config.textures.west != NULL)
+		free(d->config.textures.west);
+	if (d->config.textures.south != NULL)
+		free(d->config.textures.south);
+	if (d->config.textures.north != NULL)
+		free(d->config.textures.north);
 	if (err == 1)
 		return (-1);
 	return (0);

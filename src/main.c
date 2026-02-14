@@ -6,11 +6,12 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 18:56:19 by nimatura          #+#    #+#             */
-/*   Updated: 2026/02/11 21:12:15 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/14 02:02:40 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
+#include <unistd.h>
 
 void	set_cam_ray(t_data *d, t_raydata *r)
 {
@@ -20,7 +21,9 @@ void	set_cam_ray(t_data *d, t_raydata *r)
 	d->player.angle = r->angle;
 	set_ray(&r->ray, &d->player, d->c);
 	ray_loop(&r->ray, &d->config.map);
-    r->len = r->ray.ray_len * cosf(r->angle - angletmp);
+	r->len = r->ray.ray_len * cosf(angletmp - r->angle);
+	if (r->len < 0.00001f)
+		r->len = 0.00001f;
 	d->player.angle = angletmp;
 }
 
@@ -29,11 +32,6 @@ void	set_vline(t_data *d, t_vline *v, float len)
 	v->wall_h = (d->c.tile_size / len) * d->c.proj_plane_dist;
 	v->start_y = (int)(((float)d->c.height / 2) - (v->wall_h / 2));
 	v->end_y = (int)(((float)d->c.height / 2) + (v->wall_h / 2));
-	if (v->start_y < 0)
-		v->start_y = 0;
-	if (v->end_y >= (int)d->cam.img->height)
-		v->end_y = d->cam.img->height - 1;
-
 }
 
 uint32_t	get_tex_pixel(mlx_texture_t *tex, int x, int y)
@@ -42,84 +40,66 @@ uint32_t	get_tex_pixel(mlx_texture_t *tex, int x, int y)
 
 	i = (y * tex->width + x) * 4;
 	return (
-		(tex->pixels[i] << 24) |
-		(tex->pixels[i + 1] << 16) |
-		(tex->pixels[i + 2] << 8) |
-		(tex->pixels[i + 3])
-	);
+	(tex->pixels[i] << 24) |
+	(tex->pixels[i + 1] << 16) |
+	(tex->pixels[i + 2] << 8) |
+	(tex->pixels[i + 3])
+);
 }
 
-void	set_tex(t_tex_tools *t, t_raydata *rd, t_player *pl, int i)
+void	set_tex(t_assets *ass, t_tex_tools *t, t_raydata *rd, t_player *pl)
 {
-	t->wall_x = 0;
-	if (rd[i].ray.side == 0)
-		t->wall_x = pl->p.y + rd[i].ray.ray_len * rd[i].ray.ray.y;
-	else
-		t->wall_x = pl->p.x + rd[i].ray.ray_len * rd[i].ray.ray.x;
-	t->wall_x = fmodf(t->wall_x, 64.0f) / 64.0f;
-	// t->wall_x -= floorf(t->wall_x);
-	t->side = rd[i].ray.side;
-	if (t->side == 0)
+	if (rd->ray.side == 0)
 	{
-		if (rd[i].ray.step.x > 0)
+		t->wall_x = pl->p.y + rd->ray.ray_len * rd->ray.ray.y;
+		if (rd->ray.step.x > 0)
 			t->orient = EAST;
 		else
 			t->orient = WEST;
 	}
 	else
-	{
-		if (rd[i].ray.step.y > 0)
+{
+		t->wall_x = pl->p.x + rd->ray.ray_len * rd->ray.ray.x;
+		if (rd->ray.step.y > 0)
 			t->orient = SOUTH;
 		else
 			t->orient = NORTH;
 	}
+	t->wall_x = fmodf(t->wall_x, 64.0f) / 64.0f;
+	t->tex_x = (int)(t->wall_x * ass->tex[t->orient]->width);
+	if (rd->ray.side == 0 && rd->ray.ray.x > 0)
+		t->tex_x = ass->tex[t->orient]->width - t->tex_x - 1;
+	if (rd->ray.side == 1 && rd->ray.ray.y < 0)
+		t->tex_x = ass->tex[t->orient]->width - t->tex_x - 1;
+	if (t->tex_x < 0)
+		t->tex_x = 0;
 }
 
 void	draw_vline(t_assets *ass, t_cam *d, t_vline *v, t_tex_tools *t)
 {
 	mlx_texture_t	*tex;
-	float			tex_pos;
-	float			step;
 	int				y;
-
-	(void)v;
-	(void)d;
-	(void)tex_pos;
-	(void)step;
-	(void)y;
-
-	int	draw_start, draw_end;
+	int				draw_start;
+	int				draw_end;
 
 	tex = ass->tex[t->orient];
-	step = (float)tex->height / v->wall_h;
-
 	draw_start = v->start_y;
 	draw_end = v->end_y;
-
-	tex_pos = 0;
 	if (v->start_y < 0)
-	{
-		tex_pos = -v->start_y * step;
 		draw_start = 0;
-	}
 	if (draw_end >= (int)d->img->height)
 		draw_end = d->img->height - 1;
-
-	t->tex_x = (int)(t->wall_x * tex->width);
-	if (t->tex_x >= (int)tex->width)
-		t->tex_x = tex->width - 1;
-	if (t->tex_x < 0)
-		t->tex_x = 0;
-
 	y = draw_start;
 	while (y <= draw_end)
 	{
-		t->tex_y = (int)tex_pos;
+		int	d_y = y - v->start_y;
+		t->tex_y = (d_y * tex->height ) / v->wall_h;
 		if (t->tex_y >= (int)tex->height)
 			t->tex_y = tex->height - 1;
- 		t->color = get_tex_pixel(tex, t->tex_x, t->tex_y);
- 		mlx_put_pixel(d->img, v->i, y, t->color);
-		tex_pos += step;
+		if (t->tex_y < 0)
+			t->tex_y = 0;
+		t->color = get_tex_pixel(tex, t->tex_x, t->tex_y);
+		mlx_put_pixel(d->img, v->i, y, t->color);
 		y++;
 	}
 }
@@ -133,7 +113,7 @@ void	render_cam(t_data *d)
 
 	cam_bg(d);
 	angle_i = d->c.fov / (float)d->c.width;
-	start_angle = d->player.angle - d->c.fov / 2.0;
+	start_angle = d->player.angle - (d->c.fov / 2.0);
 	while (start_angle < 0)
 		start_angle += 2 * PI;
 	while (start_angle >= 2 * PI)
@@ -141,10 +121,10 @@ void	render_cam(t_data *d)
 	v.i = 0;
 	while (v.i < d->c.width)
 	{
-		rays[v.i].angle = normalize_angle(rays[v.i].angle, start_angle, v.i,  angle_i);
+		rays[v.i].angle = normalize_angle(start_angle, v.i,  angle_i);
 		set_cam_ray(d, &rays[v.i]);
 		set_vline(d, &v, rays[v.i].len);
-		set_tex(&d->t, rays, &d->player, v.i);
+		set_tex(&d->ass, &d->t, &rays[v.i], &d->player);
 		draw_vline(&d->ass, &d->cam, &v, &d->t);
 		v.i++;
 	}
@@ -166,12 +146,12 @@ void	program_loop(void *ptr)
 	// render_mmap(&d->cam, &d->mmap, &d->c, &d->config.map);
 }
 
-// int	main(int ac, char **av)
+char	*t1[3] = {"bin", "./maps/simple.cub" , NULL};
 int	main(void)
 {
+	int ac = 2;
 	t_data	d = {0};
-
-	if (set_data(&d) == -1)
+	if (set_data(ac, t1, &d) == -1)
 		return (EXIT_FAILURE);
 	mlx_loop_hook(d.mlx, &program_loop, &d);
 	mlx_loop(d.mlx);

@@ -6,7 +6,7 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 22:20:07 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/02/11 19:52:15 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/14 02:06:36 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,6 @@ void	set_player(t_map *map, t_player *d, t_const c, t_mmap *mmap)
 	d->dp.y = sinf(d->angle);
 }
 
-// mmap_scale corresponds to the % that 27 is of 64
-// fov is measured also in radiants. 157 represents an angle of 90
-// height: 576
-// width: 1024 -> amount of rays!
 void	set_constants(t_const *c)
 {
 	c->mmap_padding = 1;
@@ -60,13 +56,18 @@ void	upd_mmap_data(t_mmap *mmap, t_const c, t_player *pl)
 	mmap->in_pos.y = pl->p.y * c.mmap_scale;
 }
 
-int	set_data(t_data *d)
+int	set_data(int argc, char **argv, t_data *d)
 {
-	int		ac = 2;
-	char	*av[3] = {"bin", "./maps/simple.cub" , NULL};
-
-	if (load_map(ac, av, &d->config) == -1)
+	if (argc != 2)
+	{
+		printf("Usage: %s <map.cub>\n", argv[0]);
 		return (-1);
+	}
+	if (!parse_file(argv[1], &d->config))
+	{
+		printf("\n❌ PARSER FAILED\n");
+		return (-1);
+	}
 	set_constants(&d->c);
 	set_player(&d->config.map, &d->player, d->c, &d->mmap);
 	if (set_mlx(d) == -1)

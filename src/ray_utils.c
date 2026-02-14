@@ -6,14 +6,14 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/11 19:48:11 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/02/11 20:00:07 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/13 23:58:28 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
 void	cam_bg(t_data *d);
-float	normalize_angle(float angle, float start, int i, float angle_i);
+float	normalize_angle(float start, int i, float angle_i);
 
 void	cam_bg(t_data *d)
 {
@@ -41,8 +41,10 @@ void	cam_bg(t_data *d)
 	}
 }
 
-float	normalize_angle(float angle, float start, int i, float angle_i)
+float	normalize_angle(float start, int i, float angle_i)
 {
+	float angle;
+
 	angle = start + (i * angle_i);
 	while (angle < 0)
 		angle += 2 * PI;
@@ -50,4 +52,3 @@ float	normalize_angle(float angle, float start, int i, float angle_i)
 		angle -= 2 * PI;
 	return (angle);
 }
-
