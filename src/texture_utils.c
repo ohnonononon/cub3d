@@ -6,7 +6,7 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/14 02:29:01 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/02/14 03:28:00 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/14 03:49:26 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ uint32_t	get_tex_pixel(mlx_texture_t *tex, int x, int y)
 
 	i = (y * tex->width + x) * 4;
 	return ((tex->pixels[i] << 24) | (tex->pixels[i + 1] << 16) | \
-				(tex->pixels[i + 2] << 8) | (tex->pixels[i + 3]));
+				(tex->pixels[i + 2] << 8) | 32);
 }
 
 void	set_tex(t_assets *ass, t_tex_tools *t, t_raydata *rd, t_player *pl)

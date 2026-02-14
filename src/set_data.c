@@ -6,7 +6,7 @@
 /*   By: ohnonon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 22:20:07 by ohnonon           #+#    #+#             */
-/*   Updated: 2026/02/14 03:09:47 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/14 03:48:12 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	set_data(int argc, char **argv, t_data *d)
 	}
 	set_constants(&d->c);
 	set_player(&d->config.map, &d->player, d->c);
+	d->rays = 0;
 	d->rays = malloc(sizeof(t_raydata) * d->c.width);
 	if (d->rays == NULL)
 		return (-1);
