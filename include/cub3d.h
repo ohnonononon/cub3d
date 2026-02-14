@@ -6,7 +6,7 @@
 /*   By: nimatura <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 20:53:34 by nimatura          #+#    #+#             */
-/*   Updated: 2026/02/14 02:39:54 by ohnonon          ###   ########.fr       */
+/*   Updated: 2026/02/14 02:50:55 by ohnonon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,12 @@ int		load_texture_wrapper(mlx_image_t **img, mlx_texture_t **tex,
 						 char *path, mlx_t *mlx);
 int		set_textures(t_data *d, t_assets *ass, t_textures cf);
 int		set_mlx(t_data	*d);
+
+/* RENDER VIEW */
+void	set_cam_ray(t_data *d, t_raydata *r);
+void	set_vline(t_data *d, t_vline *v, float len);
+void	draw_vline(t_assets *ass, t_cam *d, t_vline *v, t_tex_tools *t);
+void	render_cam(t_data *d);
 
 /* RAY CALCULATION */
 void	set_ray_move(t_ray *d, t_player *pl, t_const c);
